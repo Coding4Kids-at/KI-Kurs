@@ -1,0 +1,13 @@
+{
+  "name": "ki-lab",
+  "version": "1.0.0",
+  "scripts": {
+    "install:all": "cd backend && npm install && cd ../frontend && npm install",
+    "dev:backend": "cd backend && node src/server.js",
+    "dev:frontend": "cd frontend && npm run dev",
+    "build": "cd frontend && npm run build",
+    "docker:build": "docker build -t coding4kids/ki-lab:latest .",
+    "docker:run": "docker run -p 3000:3000 -e GEMINI_API_KEY=${GEMINI_API_KEY} coding4kids/ki-lab:latest"
+  },
+  "private": true
+}

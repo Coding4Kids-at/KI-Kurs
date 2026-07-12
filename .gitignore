@@ -1,0 +1,20 @@
+# Dependencies
+node_modules/
+
+# Environment / Secrets (Key NIE committen!)
+.env
+*.env
+!*.env.example
+
+# SQLite Datenbank (wird automatisch angelegt)
+data/
+*.db
+*.db-shm
+*.db-wal
+
+# Frontend Build
+dist/
+
+# OS
+.DS_Store
+Thumbs.db
