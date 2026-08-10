@@ -102,7 +102,7 @@ Konfetti wenn alle Pflichtaufgaben erledigt.
 → Nicht automatisch. Aber es ist wichtig zu verstehen wie sie funktioniert — das macht euch heute.
 
 **"Welche KI ist die beste?"**
-→ Kommt drauf an wofür. Wir benutzen Claude, andere sind ChatGPT (OpenAI), Gemini (Google), etc.
+→ Kommt drauf an wofür. Wir benutzen Gemini (Google), andere sind ChatGPT (OpenAI), Claude (Anthropic), etc.
 
 **"Kann KI Bilder malen?"**
 → Es gibt separate KI-Modelle für Bilder (DALL-E, Stable Diffusion). Das sind andere Architekturen.

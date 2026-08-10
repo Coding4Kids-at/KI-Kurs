@@ -142,7 +142,7 @@ selbst programmiert haben — mit KI als Co-Pilot.
 | Dauer | 5 Tage, je ca. 6 Stunden |
 | Equipment | Laptops (gestellt oder mitgebracht), WLAN |
 | Software | Node.js, VS Code — alles kostenlos |
-| KI-Tools | Claude API (Trainer-Account, keine Kosten für Kids) |
+| KI-Tools | Gemini API (Trainer-Account, keine Kosten für Kids) |
 
 ---
 

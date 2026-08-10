@@ -39,39 +39,36 @@ Von den Grundlagen moderner KI bis zum eigenen KI-gestützten Projekt.
 
 ---
 
-## Quick Start — Workshop-App lokal starten
+## Quick Start — Workshop-App (Kinder/Workshop)
+
+Die App läuft als fertiger Container, kein npm nötig. Der Trainer gibt den API-Key:
 
 ```bash
-# Dependencies installieren:
+docker pull ghcr.io/intsanerarity/ki-lab:latest
+docker run -d -p 3000:3000 --name ki-lab -e GEMINI_API_KEY=AIzaSy-KEY-VOM-TRAINER ghcr.io/intsanerarity/ki-lab:latest
+# Browser: http://localhost:3000
+# Später wieder: docker start ki-lab
+```
+
+## Entwicklung (Quellcode lokal)
+
+```bash
 cd workshop-app
 cd backend && npm install && cd ..
 cd frontend && npm install && cd ..
 
-# Dev-Mode starten (2 Terminals):
-# Terminal 1 (Backend):
-cd backend && node src/server.js
-
-# Terminal 2 (Frontend):
-cd frontend && npm run dev
-
+# 2 Terminals:
+cd backend && node src/server.js      # Backend (Port 3001)
+cd frontend && npm run dev            # Frontend (Port 5173, Vite-Proxy → 3001)
 # Browser: http://localhost:5173
 ```
 
-## Mit Docker starten
+## Image neu bauen & veröffentlichen
 
 ```bash
 cd workshop-app
-
-# Build:
-docker build -t coding4kids/ki-lab:latest .
-
-# Starten (ohne API Key — Chat zeigt Hinweis):
-docker run -p 3000:3000 coding4kids/ki-lab:latest
-
-# Starten (mit API Key):
-docker run -p 3000:3000 -e GEMINI_API_KEY=AIzaSy-xxxxx coding4kids/ki-lab:latest
-
-# Browser: http://localhost:3000
+docker build -t ghcr.io/intsanerarity/ki-lab:latest .
+docker push ghcr.io/intsanerarity/ki-lab:latest      # Paket muss public sein
 ```
 
 ---

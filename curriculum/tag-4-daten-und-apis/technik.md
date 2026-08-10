@@ -78,9 +78,9 @@ Erweiterung einbauen, testen:
 
 ---
 
-## Schritt 4 — Claude API einbinden (40 min)
+## Schritt 4 — Gemini API einbinden (40 min)
 
-Das Schüler-Projekt bekommt ein Backend das Claude nutzt.
+Das Schüler-Projekt bekommt ein Backend das die Gemini API nutzt.
 
 Im `schuelerprojekt/` Ordner: Backend-Datei anlegen.
 

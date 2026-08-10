@@ -37,7 +37,7 @@ open index.html
 ```
 schuelerprojekt/
 ├── index.html    ← das Chat-Interface (hier kannst du alles anpassen)
-├── server.js     ← das Backend das mit Claude spricht
+├── server.js     ← das Backend das mit der Gemini API spricht
 ├── package.json
 └── .env          ← API-Key (NICHT committen!)
 ```
