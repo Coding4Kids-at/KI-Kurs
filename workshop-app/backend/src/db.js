@@ -4,7 +4,7 @@ import path from 'node:path'
 const DB_PATH = process.env.DB_PATH || path.join(process.cwd(), '..', 'data', 'kilab.db')
 
 // Bump this when the seed tasks change — the DB is then re-seeded automatically.
-const SEED_VERSION = 3
+const SEED_VERSION = 4
 
 let db
 
@@ -71,6 +71,7 @@ function seedTasks() {
     { id: 't1-3', day: 1, title: 'Token-Visualizer', description: 'Öffne den Token-Visualizer. Tokenize diese 5 Texte: "Hund", "Kindergarten", "KI ist toll", "The quick brown fox", einen eigenen Satz.', hint: 'Schau wie Wörter in Teile aufgeteilt werden — besonders zusammengesetzte Wörter.', type: 'required' },
     { id: 't1-4', day: 1, title: 'Kontext-Experiment', description: 'Stelle die Frage "Was ist 2+2?" dreimal: ohne Kontext, als Clown, als Lehrer für 5-Jährige. Schreibe auf was sich ändert.', type: 'required' },
     { id: 't1-5', day: 1, title: 'KI-Grenzen finden', description: 'Finde 2 Fragen die die KI nicht beantworten kann oder falsch beantwortet.', type: 'required' },
+    { id: 't1-6', day: 1, title: 'Teachable Machine', description: 'Öffne teachablemachine.withgoogle.com → Bildprojekt. Baue ein Modell mit 2 Klassen (z.B. "Daumen hoch"/"Daumen runter"), trainiere und teste es. Experiment: nimm für eine Klasse absichtlich zu wenige Beispiele — wie gut erkennt es dann?', hint: 'Kein Login nötig, nichts wird gespeichert. Verzögerung im Zahnrad auf 2 Sek. Das Gelernte ist nur so gut wie die Beispiele: garbage in, garbage out.', type: 'required' },
     { id: 't1-b1', day: 1, title: 'Bonus: KI erklären', description: 'Erkläre einem imaginären Freund in einer KI-Nachricht was ein Token ist — lass die KI prüfen ob deine Erklärung stimmt.', type: 'bonus' },
 
     // Tag 2 — KI Hinterfragen
@@ -79,6 +80,8 @@ function seedTasks() {
     { id: 't2-3', day: 2, title: 'Mathe-Test', description: 'Bitte die KI: 347 × 829. Rechne selbst nach. Stimmt das Ergebnis?', hint: 'Richtig: 287.663', type: 'required' },
     { id: 't2-4', day: 2, title: 'Bias-Test', description: 'Frage nach einem "typischen Chirurgen" und einer "typischen Pflegefachkraft". Welche Stereotype tauchen auf?', type: 'required' },
     { id: 't2-5', day: 2, title: 'Fehler-Log: 3 Einträge', description: 'Dokumentiere im Fehler-Log mindestens 3 KI-Fehler die du heute gefunden hast.', type: 'required' },
+    { id: 't2-6', day: 2, title: 'Sensible Daten & Aegis', description: 'Überlege: Welche 5 Infos würdest du einem Fremden auf der Straße NICHT erzählen? Genau die gehören nicht in eine KI. Installiere Aegis (coding4kids.at/aegis) und teste, wie es erfundene persönliche Daten im Chat anonymisiert.', hint: 'Aegis ersetzt persönliche Daten durch Platzhalter und entschlüsselt sie erst beim Herauskopieren. Nie ECHTE persönliche Daten zum Testen nehmen — denk dir welche aus.', type: 'required' },
+    { id: 't2-7', day: 2, title: 'Mensch oder KI?', description: 'Schau dir die Bild-/Video-Beispiele vom Trainer an und rate: echt oder KI-generiert? Notiere: Woran hast du es (nicht) erkannt?', hint: 'KI-Bilder haben oft Fehler an Händen, Zähnen, Text im Bild, Hintergründen. Aber: es wird immer schwerer. "Im Video gesehen" ist kein Beweis mehr.', type: 'required' },
     { id: 't2-b1', day: 2, title: 'Bonus: Eigene Fakten-Karten', description: 'Erstelle 5 eigene Fakten-Karten (3 echt, 2 erfunden) für andere Gruppen.', type: 'bonus' },
 
     // Tag 3 — Mit KI bauen
@@ -90,6 +93,7 @@ function seedTasks() {
     { id: 't3-6', day: 3, title: 'Gemini-CLI starten', description: 'Entpacke das CLI-Bundle vom Trainer und starte es (Doppelklick KI-STARTEN.cmd). Lass die KI eine Datei hallo.txt schreiben und erstelle eine GEMINI.md mit deinem Namen und Bot-Thema. Starte neu — kennt die KI jetzt deinen Kontext?', hint: 'Kein npm install, kein Login — das Bundle bringt Node mit. Der entpackte Ordner ist dein Projektordner: GEMINI.md wird bei jedem Start automatisch geladen.', type: 'required' },
     { id: 't3-b1', day: 3, title: 'Bonus: Format-Experiment', description: 'Teste die gleiche Frage in 4 Ausgabe-Formaten: Liste, Geschichte, Tabelle, Tweet.', type: 'bonus' },
     { id: 't3-b2', day: 3, title: 'Bonus: Eigener CLI-Skill', description: 'Baue in der Gemini-CLI einen eigenen Befehl: Datei .gemini/commands/witz.toml mit description und prompt. Starte neu und teste ihn mit /witz.', hint: 'Der Ordner heißt genau .gemini/commands (Punkt am Anfang!). In der .toml stehen description = "..." und prompt = "...".', type: 'bonus' },
+    { id: 't3-b3', day: 3, title: 'Bonus: Bild mit KI', description: 'Erstelle mit autodraw.com (kritzeln → KI ersetzt) oder Canva ein Bild/Logo, das zu deinem Bot-Thema passt, und speichere es für dein Projekt.', hint: 'autodraw.com braucht keinen Login. Bildgeneration ist dieselbe Technik wie Deepfakes (Tag 2) — cooles Werkzeug, aber wissen was es ist.', type: 'bonus' },
 
     // Tag 4 — Daten & APIs
     { id: 't4-1', day: 4, title: 'Wetter-API abrufen', description: 'Rufe die Open-Meteo API im Browser ab. Lies die aktuelle Temperatur aus dem JSON.', type: 'required' },
@@ -104,6 +108,7 @@ function seedTasks() {
     { id: 't5-2', day: 5, title: 'README geschrieben', description: 'Dein Projekt hat eine README-Datei mit Beschreibung, Start-Anleitung und Beispiel-Fragen.', type: 'required' },
     { id: 't5-3', day: 5, title: 'Projekt-Galerie', description: 'Du hast mindestens 3 andere Projekte ausprobiert und je einen Post-It hinterlassen.', type: 'required' },
     { id: 't5-4', day: 5, title: 'Präsentation gehalten', description: 'Du hast dein Projekt der Gruppe vorgestellt (3-5 Minuten).', type: 'required' },
+    { id: 't5-5', day: 5, title: 'Reflexion ohne KI', description: 'Beantworte OHNE die KI zu fragen: Was kann KI gut? Was kann KI nicht gut? Worauf muss ich aufpassen (Halluzinationen, sensible Daten, Deepfakes)? Kann ich der KI vertrauen — und wann nicht?', hint: 'Kein richtig/falsch — deine eigene Einschätzung nach dieser Woche. Genau das ist der Kern: KI ist ein Werkzeug, die Verantwortung bleibt beim Menschen.', type: 'required' },
     { id: 't5-b1', day: 5, title: 'Bonus: GitHub Upload', description: 'Erstelle einen GitHub-Account und lade dein Projekt hoch.', type: 'bonus' },
   ]
 

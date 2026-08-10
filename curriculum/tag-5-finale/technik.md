@@ -69,9 +69,18 @@ Reihenfolge: wer freiwillig anfangen möchte, dann reihum.
 
 ---
 
-## Abschluss (15 min)
+## Abschluss (25 min)
 
-**Reflexionsrunde:**
+**Reflexion ohne KI (10 min):**
+Bewusst *ohne* die KI zu fragen — die Kinder denken selbst. In der Gruppe oder auf einem Zettel:
+- **Was kann KI gut?**
+- **Was kann KI *nicht* gut?**
+- **Worauf muss ich aufpassen?** (Halluzinationen, sensible Daten, Deepfakes)
+- **Kann ich der KI vertrauen?** — und wann nicht?
+
+Das bündelt die ganze Woche: KI ist ein starkes Werkzeug, aber die Verantwortung bleibt beim Menschen.
+
+**Ein-Satz-Runde:**
 Jede:r sagt einen Satz:
 - "Diese Woche hat mir gezeigt: ___"
 - "Ich werde KI jetzt anders nutzen weil: ___"

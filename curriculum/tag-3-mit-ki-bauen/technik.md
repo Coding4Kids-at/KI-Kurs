@@ -170,7 +170,23 @@ schreiben, im Projektordner arbeiten, eigene Befehle (Skills).
 
 ---
 
-## Schritt 5 — Schüler-Projekt starten (30 min)
+## Schritt 5 — Bilder mit KI (Bonus, 25 min)
+
+KI kann nicht nur Text, sondern auch **zeichnen**. Zwei niederschwellige Werkzeuge zum Ausprobieren:
+- **[autodraw.com](https://www.autodraw.com)** — du kritzelst grob mit der Maus, oben schlägt die KI
+  passende saubere Symbole vor, die deine Zeichnung ersetzen. Kein Login.
+- **Canva** (C4K-Accounts, Zugang + Passwort vom Trainer) — Text-zu-Bild für Grafiken, die du in
+  deiner HTML-Seite oder deinem Projekt nutzen kannst.
+
+**Aufgabe:** Erzeuge ein Bild/Symbol, das zu deinem Bot-Thema passt (z.B. ein Logo), und speichere es
+für dein Projekt.
+
+**Kurz einordnen:** Bildgeneration ist ein starkes Kreativ-Werkzeug — und **dieselbe** Technik, mit der
+Deepfakes entstehen (Tag 2). Nutzen ja, aber wissen, was es ist.
+
+---
+
+## Schritt 6 — Schüler-Projekt starten (30 min)
 
 **Projektauswahl:**
 Jede:r entscheidet sich für ein Bot-Thema.

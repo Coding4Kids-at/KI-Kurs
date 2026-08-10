@@ -1,6 +1,6 @@
 # Tag 1 — Technik-Block: "Erste Schritte mit KI"
 
-**Dauer:** ~3 Stunden (inkl. Pausen)  
+**Dauer:** ~3,5 Stunden (inkl. Pausen)  
 **Alle 20 Min Technik → 10 Min Pause**  
 
 ---
@@ -20,7 +20,33 @@ Antwort lesen. Versteht man sie? Was ist unklar?
 
 ---
 
-## Schritt 2 — Token-Visualizer (25 min)
+## Schritt 2 — Wie lernt eine Maschine? (Teachable Machine, 35 min)
+
+Bevor wir mit Sprach-KI (LLM) weitermachen: Wie lernt ein Computer überhaupt?
+
+**Konzept (kurz an der Tafel):**
+- Maschinelles Lernen heißt: der Computer lernt aus **vielen Beispielen** — man gibt ihm nicht jeden Schritt vor.
+- Er erkennt **Muster** (z.B. „das ist eine Katze") und schätzt damit neue Beispiele ein.
+- **Garbage in, garbage out:** das Gelernte ist nur so gut wie die Beispiele. Nur Hunde + Katzen als Beispiele → Hasen erkennt er nicht.
+- Wichtig: **Computer denken nicht, sie lernen nur aus Daten.** Fehler sind normal.
+
+**Live ausprobieren — Teachable Machine** (Google, webbasiert, kein Login, nichts wird gespeichert):
+[teachablemachine.withgoogle.com](https://teachablemachine.withgoogle.com) → „Bildprojekt" → „Standard".
+1. **Klassen benennen** (statt „Class 1" z.B. „Daumen hoch" / „Daumen runter").
+2. **Aufnahmeeinstellung:** Zahnrad → Verzögerung auf 2 Sek. (statt gedrückt halten).
+3. **Trainingsdaten aufnehmen:** pro Klasse viele Bilder vor ruhigem Hintergrund; „Klasse hinzufügen" für mehr.
+4. **Modell trainieren** (Tab offen lassen) → **Ausprobieren.**
+
+**Experiment (das eigentliche Lernziel):**
+- Nimm für eine Klasse absichtlich **zu wenige** Beispiele → wie schlecht erkennt das Modell?
+- Nimm Beispiele nur vor einem Hintergrund → erkennt es dich woanders noch? → **Garbage in, garbage out** am eigenen Modell erlebt.
+- Modell teilen: der Link kann mit nach Hause genommen werden (Trainingsdaten bleiben lokal, nur die Vorschau ist sichtbar).
+
+**Bonus — Machine Learning for Kids:** lässt sich direkt mit **Scratch** verbinden. Arbeitsblätter (PDF) liegen auf [coding4kids.at/downloads](https://www.coding4kids.at/downloads).
+
+---
+
+## Schritt 3 — Token-Visualizer (25 min)
 
 Im KI Lab: Tab "Token-Visualizer" öffnen.
 
@@ -42,7 +68,7 @@ In Aufgaben-Antwortfeld eintragen: "Was hat mich überrascht?"
 
 ---
 
-## Schritt 3 — Kontext-Experiment (30 min)
+## Schritt 4 — Kontext-Experiment (30 min)
 
 **Die gleiche Frage, 3 verschiedene Kontexte:**
 
@@ -72,7 +98,7 @@ Beobachtungen in Aufgaben-Feld eintragen:
 
 ---
 
-## Schritt 4 — Fragen die KI keine beantworten kann (20 min)
+## Schritt 5 — Fragen die KI keine beantworten kann (20 min)
 
 **Aufgabe:** Findet Fragen wo die KI versagt oder komisch antwortet.
 Versucht:
@@ -85,7 +111,7 @@ Beobachtungen notieren: Wo hat die KI Grenzen?
 
 ---
 
-## Schritt 5 — Erste Aufgaben abhaken (10 min)
+## Schritt 6 — Erste Aufgaben abhaken (10 min)
 
 Auf dem Dashboard die Tag-1-Aufgaben durchgehen.
 Completed-Boxen abhaken.

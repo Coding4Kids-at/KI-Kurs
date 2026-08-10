@@ -1,6 +1,6 @@
 # Tag 2 — Technik-Block: "Halluzinationen, Bias und der Fehler-Log"
 
-**Dauer:** ~3 Stunden (inkl. Pausen)  
+**Dauer:** ~4 Stunden (inkl. Pausen)  
 
 ---
 
@@ -108,7 +108,40 @@ Wer fertig ist: Bonus-Aufgabe — Prompt Injection testen.
 
 ---
 
-## Schritt 5 — Prompt Injection ausprobieren (Bonus, 20 min)
+## Schritt 5 — Sensible Daten & Aegis (35 min)
+
+Ihr tippt den ganzen Kurs Text in die KI. Aber: **Was davon sollte man einer KI (oder irgendwem im Internet) gar nicht erst geben?**
+
+**Konzept (kurz):** Personenbezogene/sensible Daten sind alle Angaben, die eine Person **identifizieren** oder Rückschlüsse zulassen — wer du bist, wo du wohnst/zur Schule gehst, wie es dir geht, welche Meinungen/Hobbys/Religion du hast. Manche Daten verraten dich direkt (Adresse bei einer Bestellung), andere indirekt.
+
+**Einstiegsfrage in die Runde:** „Welche Informationen würdet ihr einem völlig fremden Menschen auf der Straße NICHT erzählen?" → genau die gehören auch nicht in eine KI/ins Netz.
+
+**Aha-Geschichte (Shia-LaBeouf-Flagge):** Bei einer Kunstaktion nach der US-Wahl 2016 wurde nur eine Flagge per Livestream gezeigt — sonst nichts. Leute aus dem Internet fanden den Standort trotzdem in ~1,5 Tagen: über den Sonnenstand (welcher Teil der USA), Froschgeräusche (Gewässer in der Nähe), Kondensstreifen von Flugzeugen und Sternbilder. **Lektion:** aus scheinbar harmlosen Schnipseln lassen sich erstaunlich viele Rückschlüsse ziehen.
+
+**Aegis ausprobieren** (C4K-Communitypartner Kaino) — [coding4kids.at/aegis](https://www.coding4kids.at/aegis):
+- Chrome-Erweiterung, die im Chat mit **ChatGPT, Gemini oder Claude** persönliche Daten automatisch **anonymisiert** (durch Platzhalter ersetzt) und beim Herauskopieren wieder entschlüsselt.
+- Installation nach der Anleitung auf der Seite (Trainer hat einen Code aus der Anleitung, mit dem man mehr Files hochladen/filtern kann).
+- Test: Einen Text mit Fake-„persönlichen" Daten (erfundener Name, Adresse) eingeben → sehen, wie Aegis sie ersetzt.
+
+> Auch technisch geschützt: Unsere App nutzt einen **Trainer-Key im Paid-Tier** — dort werden Eingaben **nicht** fürs Training verwendet (anders als im kostenlosen Tier). Trotzdem gilt: **keine echten persönlichen Daten** eingeben.
+
+---
+
+## Schritt 6 — Mensch oder KI? (Deepfakes, 30 min)
+
+KI erzeugt nicht nur Text, sondern auch **Bilder, Stimmen und Videos** — oft täuschend echt.
+
+**Spiel „Mensch oder KI?":** Der Trainer zeigt Bild-/Video-Paare, die Kinder raten, was echt und was KI-generiert ist (Links liegen in Felix' Foliensatz). Danach auflösen und besprechen: **Woran** hat man es (nicht) erkannt?
+
+**Kurz einordnen — Risiken & Chancen:**
+- Risiken: Fake News, **Deepfakes** von Politiker:innen/Prominenten/Privatpersonen, Betrug.
+- Chancen: Bilder/Animationen für eigene Spiele, Ideenfindung, kreative Werkzeuge.
+
+**Lektion:** „Ich hab's im Video gesehen" ist kein Beweis mehr. Quelle prüfen, skeptisch bleiben — genau wie bei Text-Halluzinationen.
+
+---
+
+## Schritt 7 — Prompt Injection ausprobieren (Bonus, 20 min)
 
 **Versuch 1 — Einfach:**
 ```
