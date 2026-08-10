@@ -26,10 +26,14 @@ app.get('/health', (req, res) => {
   res.json({ status: 'ok', hasApiKey: !!process.env.GEMINI_API_KEY })
 })
 
-// serve frontend in production (Docker)
-const publicDir = path.join(__dirname, '..', '..', 'public')
+// serve frontend in production (Docker): built frontend lives at /app/public,
+// server.js at /app/src -> one level up.
+const publicDir = path.join(__dirname, '..', 'public')
 app.use(express.static(publicDir))
-app.get('*', (req, res) => {
+app.get('*', (req, res, next) => {
+  if (req.path.startsWith('/api/')) {
+    return next()
+  }
   res.sendFile(path.join(publicDir, 'index.html'))
 })
 

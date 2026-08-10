@@ -3,6 +3,9 @@ import path from 'node:path'
 
 const DB_PATH = process.env.DB_PATH || path.join(process.cwd(), '..', 'data', 'kilab.db')
 
+// Bump this when the seed tasks change — the DB is then re-seeded automatically.
+const SEED_VERSION = 2
+
 let db
 
 export function getDb() {
@@ -43,17 +46,24 @@ function initSchema() {
       prompt TEXT NOT NULL,
       antwort TEXT NOT NULL
     );
+
+    CREATE TABLE IF NOT EXISTS db_meta (
+      key TEXT PRIMARY KEY,
+      value TEXT
+    );
   `)
 
-  seedTasks()
+  // Re-seed tasks whenever SEED_VERSION was bumped (existing DBs get the new tasks).
+  const versionRow = db.prepare('SELECT value FROM db_meta WHERE key = ?').get('seed_version')
+  const currentVersion = versionRow ? parseInt(versionRow.value) : 0
+  if (currentVersion < SEED_VERSION) {
+    db.exec('DELETE FROM tasks')
+    seedTasks()
+    db.prepare('INSERT OR REPLACE INTO db_meta (key, value) VALUES (?, ?)').run('seed_version', String(SEED_VERSION))
+  }
 }
 
-const SEED_VERSION = 1
-
 function seedTasks() {
-  const count = db.prepare('SELECT COUNT(*) as n FROM tasks').get()
-  if (count.n > 0) return
-
   const tasks = [
     // Tag 1 — KI Verstehen
     { id: 't1-1', day: 1, title: 'Workshop-App öffnen', description: 'Öffne die KI Lab App im Browser und gib deinen Namen ein.', type: 'required' },
@@ -83,7 +93,7 @@ function seedTasks() {
     { id: 't4-1', day: 4, title: 'Wetter-API abrufen', description: 'Rufe die Open-Meteo API im Browser ab. Lies die aktuelle Temperatur aus dem JSON.', type: 'required' },
     { id: 't4-2', day: 4, title: 'Mini-API bauen', description: 'Baue eine einfache Node.js API mit GET /api/witze. Teste sie im Browser.', type: 'required' },
     { id: 't4-3', day: 4, title: 'Datenbank hinzufügen', description: 'Erweitere die API um SQLite. Neue Witze müssen nach Neustart noch da sein.', type: 'required' },
-    { id: 't4-4', day: 4, title: 'Claude API einbinden', description: 'Dein Projekt-Backend schickt Nachrichten an Claude und gibt die Antwort zurück.', type: 'required' },
+    { id: 't4-4', day: 4, title: 'Gemini API einbinden', description: 'Dein Projekt-Backend schickt Nachrichten an die Gemini API und gibt die Antwort zurück.', type: 'required' },
     { id: 't4-5', day: 4, title: 'Frontend verbinden', description: 'Deine HTML-Seite nutzt dein Backend — Button-Klick → API-Call → KI-Antwort auf der Seite.', type: 'required' },
     { id: 't4-b1', day: 4, title: 'Bonus: Weitere Endpunkte', description: 'Füge deiner API 2 weitere Endpunkte hinzu die deinem Projekt nützen.', type: 'bonus' },
 
