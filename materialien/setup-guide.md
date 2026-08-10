@@ -1,101 +1,110 @@
 # Setup-Guide — KI Lab Workshop
 
-Diese Anleitung richtet Deinen Laptop für den Workshop ein.
-Alle Tools sind kostenlos.
+Diese Anleitung richtet Deinen Laptop für den Workshop ein. Alle Tools sind kostenlos.
+
+Auf den Workshop-Laptops ist meist schon alles vorinstalliert — deshalb **zuerst prüfen**, dann
+nur das Fehlende nachholen.
 
 ---
 
 ## Was du brauchst
 
-| Tool | Warum | Download |
+| Tool | Wofür | Download |
 |------|-------|---------|
-| Node.js 22 | Für das Backend | nodejs.org |
-| VS Code | Code-Editor | code.visualstudio.com |
+| Docker Desktop | Die KI-Lab-App läuft als fertiger Container | docker.com/products/docker-desktop |
+| Node.js 24+ | Für deine eigenen Projekte ab Tag 3 (HTML/Backend) | nodejs.org |
+| VS Code | Code-Editor für deine Projekte | code.visualstudio.com |
 | Browser | Chrome oder Firefox | vorinstalliert |
-
-**Nicht nötig:** Docker, Kubernetes, Linux-Kenntnisse
+| KI-Assistent (Gemini CLI) | ab Tag 3 | **nicht installieren** — fertiges Bundle vom Trainer |
 
 ---
 
-## Schritt 1 — Node.js installieren
+## Schritt 1 — Prüfen, was schon da ist
 
-1. Gehe auf [nodejs.org](https://nodejs.org)
-2. Klicke auf "LTS" (die grüne Schaltfläche)
-3. Installer herunterladen und ausführen
-4. Alle Standardeinstellungen belassen
+Terminal öffnen (Windows-Taste → `PowerShell` → Enter) und nacheinander:
 
-**Prüfen ob es funktioniert:**
 ```
+docker --version
 node --version
 ```
-→ Muss `v22.x.x` zeigen
+
+- Kommt jeweils eine **Versionsnummer**? Dann ist das Tool da → den Installations-Schritt unten
+  überspringen.
+- Steht dort **„not recognized" / „nicht gefunden"**? Dann fehlt genau das → unten nachinstallieren.
 
 ---
 
-## Schritt 2 — VS Code installieren
+## Schritt 2 — Docker Desktop (nur falls oben gefehlt)
 
-1. Gehe auf [code.visualstudio.com](https://code.visualstudio.com)
-2. Download und Installation
-3. VS Code öffnen
+1. [docker.com → Docker Desktop](https://www.docker.com/products/docker-desktop/) laden und installieren.
+2. **PC einmal neu starten.**
+3. Docker Desktop öffnen und warten, bis links unten der kleine Wal ruhig/grün ist (beim ersten Mal 1–2 Min).
 
-**Empfohlene Erweiterungen** (optional aber nützlich):
-- "Prettier" — Code automatisch formatieren
+> **Wichtig:** Der Wal muss laufen. `docker --version` zeigt die Nummer auch, wenn Docker nur
+> installiert, aber **nicht gestartet** ist. Kommt später „Cannot connect to the Docker daemon",
+> ist Docker Desktop einfach nicht offen.
 
 ---
 
-## Schritt 3 — Workshop-App starten
+## Schritt 3 — Node.js & VS Code (nur falls oben gefehlt)
 
-Der Trainer gibt dir die Workshop-App auf USB-Stick oder über das lokale Netzwerk.
+- **Node.js:** [nodejs.org](https://nodejs.org) → große grüne Taste (Version **24 oder höher**),
+  installieren, Terminal danach einmal neu öffnen. (Brauchst du ab Tag 3 für deine eigenen Projekte.)
+- **VS Code:** [code.visualstudio.com](https://code.visualstudio.com) → installieren. Empfohlene
+  Erweiterung: „Prettier".
 
-```bash
-# In den Workshop-App Ordner wechseln:
-cd workshop-app
+---
 
-# Backend-Abhängigkeiten installieren:
-cd backend
-npm install
-cd ..
+## Schritt 4 — Die KI-Lab-App holen & starten
 
-# Frontend-Abhängigkeiten installieren:
-cd frontend
-npm install
-cd ..
+Die App kommt als fertiger Container — nichts zu bauen, nichts per npm zu installieren.
+
+**App-Paket holen** (beim ersten Mal ein, zwei Minuten):
+```
+docker pull ghcr.io/intsanerarity/ki-lab:latest
 ```
 
-**API-Key eintragen** (der Trainer gibt dir den Key):
-```bash
-# Datei backend/.env erstellen und öffnen:
-# Inhalt: GEMINI_API_KEY=AIzaSy-xxxxx
+**App starten** — der Trainer gibt dir den API-Key, den du hier einträgst:
+```
+docker run -d -p 3000:3000 --name ki-lab -e GEMINI_API_KEY=AIzaSy-KEY-VOM-TRAINER ghcr.io/intsanerarity/ki-lab:latest
 ```
 
-**App starten (zwei Terminals):**
+Browser öffnen: **http://localhost:3000** → Namen eingeben, los geht's.
 
-Terminal 1 (Backend):
-```bash
-cd backend
-node src/server.js
+> Später wieder starten (nach Neustart): **nicht** nochmal `docker run` (Name schon vergeben),
+> sondern `docker start ki-lab`. Dein Fortschritt bleibt erhalten.
+
+---
+
+## Schritt 5 — KI-Assistent (Gemini CLI, ab Tag 3): NICHT installieren
+
+Die Gemini-CLI wird **nicht** installiert. Der Trainer verteilt ein fertiges Bundle (Node ist
+mit drin → läuft ohne Vorinstallation): herunterladen, entpacken, Doppelklick auf `KI-STARTEN.cmd`
+(Windows) bzw. `KI-starten.command` (Mac). Kein `npm install`, kein Login.
+
+Direkter Download (empfohlen):
+```
+https://github.com/Coding4Kids-at/Docker-Kurs/releases/download/v1.3/gemini-ki-portable-mit-node.zip
 ```
 
-Terminal 2 (Frontend):
-```bash
-cd frontend
-npm run dev
-```
-
-Browser öffnen: `http://localhost:5173`
+Der API-Key wird beim ersten Start abgefragt (derselbe Trainer-Key wie für die App).
 
 ---
 
 ## Häufige Probleme
 
-**"node: command not found"**
-→ Node.js nicht korrekt installiert. Schritt 1 wiederholen.
+**„Cannot connect to the Docker daemon"**
+→ Docker Desktop ist nicht offen. Starten und warten, bis der Wal grün ist.
 
-**"npm ERR! ENOENT"**
-→ Falscher Ordner. Prüfe mit `ls` ob du im richtigen Ordner bist.
+**http://localhost:3000 zeigt nichts**
+→ Läuft der Container? `docker ps` prüfen; wenn `ki-lab` fehlt: `docker start ki-lab`.
 
-**Seite lädt nicht**
-→ Läuft das Backend? Fehlermeldungen im Terminal?
+**„The container name /ki-lab is already in use"**
+→ App wurde schon gestartet. Nicht neu `run`en, sondern `docker start ki-lab`.
 
-**Chat-Fehler "Kein API-Key"**
-→ `.env` Datei fehlt oder API-Key falsch eingetragen.
+**Chat sagt „Trainer fragen" / kein API-Key**
+→ Der Key wurde beim `docker run` nicht (oder falsch) mit `-e GEMINI_API_KEY=…` übergeben.
+Container entfernen (`docker rm -f ki-lab`) und mit korrektem Key neu starten.
+
+**`node`/`npm` nicht gefunden (bei eigenen Projekten ab Tag 3)**
+→ Node.js aus Schritt 3 installieren, Terminal neu öffnen.

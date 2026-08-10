@@ -4,7 +4,7 @@ import path from 'node:path'
 const DB_PATH = process.env.DB_PATH || path.join(process.cwd(), '..', 'data', 'kilab.db')
 
 // Bump this when the seed tasks change — the DB is then re-seeded automatically.
-const SEED_VERSION = 2
+const SEED_VERSION = 3
 
 let db
 
@@ -87,7 +87,9 @@ function seedTasks() {
     { id: 't3-3', day: 3, title: 'HTML mit KI', description: 'Baue eine HTML-Seite mit KI als Co-Pilot. Öffne sie im Browser — sie muss funktionieren.', type: 'required' },
     { id: 't3-4', day: 3, title: 'Eigene Änderung', description: 'Ändere eine Kleinigkeit in deiner HTML-Seite OHNE KI zu fragen. Nur du und der Code.', type: 'required' },
     { id: 't3-5', day: 3, title: 'Projekt-Thema wählen', description: 'Entscheide dich für ein Bot-Thema für dein Schlussprojekt. Erster System-Prompt geschrieben.', type: 'required' },
+    { id: 't3-6', day: 3, title: 'Gemini-CLI starten', description: 'Entpacke das CLI-Bundle vom Trainer und starte es (Doppelklick KI-STARTEN.cmd). Lass die KI eine Datei hallo.txt schreiben und erstelle eine GEMINI.md mit deinem Namen und Bot-Thema. Starte neu — kennt die KI jetzt deinen Kontext?', hint: 'Kein npm install, kein Login — das Bundle bringt Node mit. Der entpackte Ordner ist dein Projektordner: GEMINI.md wird bei jedem Start automatisch geladen.', type: 'required' },
     { id: 't3-b1', day: 3, title: 'Bonus: Format-Experiment', description: 'Teste die gleiche Frage in 4 Ausgabe-Formaten: Liste, Geschichte, Tabelle, Tweet.', type: 'bonus' },
+    { id: 't3-b2', day: 3, title: 'Bonus: Eigener CLI-Skill', description: 'Baue in der Gemini-CLI einen eigenen Befehl: Datei .gemini/commands/witz.toml mit description und prompt. Starte neu und teste ihn mit /witz.', hint: 'Der Ordner heißt genau .gemini/commands (Punkt am Anfang!). In der .toml stehen description = "..." und prompt = "...".', type: 'bonus' },
 
     // Tag 4 — Daten & APIs
     { id: 't4-1', day: 4, title: 'Wetter-API abrufen', description: 'Rufe die Open-Meteo API im Browser ab. Lies die aktuelle Temperatur aus dem JSON.', type: 'required' },

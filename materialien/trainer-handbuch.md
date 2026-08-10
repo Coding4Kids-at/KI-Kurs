@@ -5,16 +5,43 @@
 ## Vorbereitung vor dem Workshop
 
 ### 1 Woche vorher
-- [ ] Laptop-Setup testen (Node.js, npm install, App starten)
-- [ ] Anthropic API-Key besorgen und auf Budget-Limit prüfen ($10-20 reicht)
+- [ ] **Gemini-API-Key (Paid-Tier)** anlegen + **Budget-Cap** setzen (siehe Abschnitt „Kosten & Budget")
+- [ ] Laptop-Setup testen: `docker pull ghcr.io/intsanerarity/ki-lab:latest` + einmal starten
+- [ ] CLI-Bundle bereitlegen (`gemini-ki-portable-mit-node.zip`, ab Tag 3) — USB oder Download-Link
 - [ ] Fakten-Karten für Tag 2 ausdrucken und laminieren
 - [ ] Zettel und Stifte für alle Raum-Aktivitäten vorbereiten
 
 ### 1 Tag vorher
-- [ ] App auf allen Teilnehmer-Laptops installieren oder Netzwerk-Distribution testen
-- [ ] `.env` mit API-Key auf allen Geräten einrichten
-- [ ] App-Start testen auf einem frischen Gerät
-- [ ] Backup-Plan ohne Internet: Ollama lokal einrichten (siehe unten)
+- [ ] Auf jedem Laptop `docker pull ghcr.io/intsanerarity/ki-lab:latest` gezogen (oder Image per USB verteilt)
+- [ ] App-Start auf einem frischen Gerät getestet: `docker run -d -p 3000:3000 --name ki-lab -e GEMINI_API_KEY=<KEY> ghcr.io/intsanerarity/ki-lab:latest` → http://localhost:3000
+- [ ] Trainer-Key parat (wird beim `docker run` per `-e` übergeben — NICHT im Image)
+- [ ] Für Tag 3+: Node.js + VS Code auf den Laptops vorhanden (eigene Schüler-Projekte)
+
+---
+
+## Kosten & Budget (Gemini)
+
+**Die reinen Kosten sind winzig.** Bei ~15 Kindern × 5 Tagen und kurzen, kindgerechten Antworten
+(die App begrenzt Output bereits auf 600–800 Token) liegt der ganze Workshop bei grob **$3–12**.
+Modellpreis Gemini 2.5 Flash (Stand Aug 2026): ca. $0,30 Input / $2,50 Output je 1 Mio Token.
+
+**Warum trotzdem Paid-Tier und nicht Free-Tier?** Nicht wegen des Preises, sondern wegen zwei Dingen:
+1. **Rate-Limits:** Der Free-Tier erlaubt nur wenige Anfragen pro Minute — 15 Kinder gleichzeitig auf
+   einem Key ergeben ständige „429 / Rate limit"-Fehler, der Chat hakt dauernd.
+2. **Datenschutz:** Google darf **Free-Tier-Eingaben fürs Training nutzen**. Paid-Tier (und Vertex AI)
+   **nicht**. Bei Kinder-Eingaben ist das der entscheidende Grund.
+
+**So richtest du es ein (einmalig):**
+1. In [Google AI Studio](https://aistudio.google.com/apikey) einen API-Key anlegen und das Projekt
+   auf **Paid / Billing aktiviert** stellen (Kreditkarte beim verknüpften Google-Cloud-Projekt).
+2. In der [Google Cloud Console](https://console.cloud.google.com/billing) → **Billing → Budgets &
+   alerts** ein Budget anlegen, z.B. **$20/Monat**, mit E-Mail-Alert bei 50/90/100 %. Das ist dein
+   Sicherheitsnetz — du wirst gewarnt, lange bevor etwas teuer wird.
+3. **Ein Trainer-Key für alle.** Die Kinder tippen ihn nie selbst ab — du gibst ihn beim `docker run`
+   per `-e GEMINI_API_KEY=…` mit (bzw. beim ersten CLI-Start). Kein eigener Key pro Kind.
+
+> Hält sich die Nutzung im Rahmen, kostet der Workshop real wenige Dollar — der Budget-Cap sorgt
+> dafür, dass es nie „aus Versehen" mehr wird.
 
 ---
 
@@ -74,7 +101,8 @@ OLLAMA_MODEL=llama3.2
 *(Backend müsste entsprechend angepasst werden — separate Ollama-Route)*
 
 **Wichtig:** Ollama-Modelle antworten auf Englisch und müssen per Prompt auf Deutsch gezwungen werden.
-Die Antwortqualität ist etwas niedriger als Claude Haiku.
+Die Antwortqualität ist etwas niedriger als Gemini Flash. (Der Ollama-Fallback ist optional und im
+Backend noch nicht fertig verdrahtet — nur als Notnagel ohne Internet gedacht.)
 
 ---
 
@@ -97,21 +125,21 @@ Sie ist sehr gut darin, so zu klingen als ob — weil das im Training belohnt wu
 → Nein — KI hat keine Absichten. Sie halluziniert (produziert Falschinformationen) aber lügt nicht bewusst.
 
 **"Welche KI ist die Beste?"**
-→ Kommt auf den Anwendungsfall an. Claude, ChatGPT, Gemini — alle haben Stärken und Schwächen.
-Wir nutzen Claude weil wir damit entwickeln und die API gut zugänglich ist.
+→ Kommt auf den Anwendungsfall an. Gemini, ChatGPT, Claude — alle haben Stärken und Schwächen.
+Wir nutzen Gemini, weil die API gut zugänglich ist und einen brauchbaren kostenlosen Einstieg hat.
 
 ---
 
 ## Wenn etwas schiefgeht
 
 **App startet nicht:**
-1. Sind beide Terminals gestartet (Backend + Frontend)?
-2. `npm install` ausgeführt?
-3. Läuft ein anderes Programm auf Port 3001 oder 5173?
+1. Läuft Docker Desktop (Wal grün)?
+2. Container da? `docker ps` — wenn `ki-lab` fehlt: `docker start ki-lab` (oder neu `docker run …`).
+3. Port 3000 belegt? Anderes Programm stoppen oder Container mit `-p 3001:3000` starten.
 
-**Chat zeigt Fehler:**
-1. API-Key korrekt in `.env` eingetragen?
-2. Budget nicht überschritten? → Anthropic Console prüfen
+**Chat zeigt Fehler / „Trainer fragen":**
+1. Key beim `docker run` per `-e GEMINI_API_KEY=…` übergeben? (`docker rm -f ki-lab` und neu starten)
+2. Budget/Rate-Limit? → [Google AI Studio](https://aistudio.google.com/apikey) bzw. Cloud-Billing prüfen
 
 **Ein Kind kommt nicht mit:**
 → Pair-Programming: setze zwei Kinder zusammen.
@@ -126,7 +154,8 @@ Das Schnellere erklärt dem Langsameren — beide lernen dabei.
 
 ## Sicherheits-Hinweise
 
-- API-Key nach dem Workshop rotieren (Anthropic Console → API Keys)
+- API-Key nach dem Workshop rotieren ([Google AI Studio](https://aistudio.google.com/apikey) → Keys)
 - Kinder sollen keine eigenen API-Keys anlegen (Kosten!)
-- Eingaben der Kinder werden an Anthropic gesendet — keine sensiblen Daten eingeben
-- `.env` Dateien NICHT auf GitHub hochladen
+- Eingaben der Kinder werden an Google gesendet — keine sensiblen/persönlichen Daten eingeben
+  (Paid-Tier: Eingaben werden nicht fürs Training genutzt — siehe „Kosten & Budget")
+- API-Key NIE ins Docker-Image bauen — immer nur per `-e GEMINI_API_KEY=…` beim Start; `.env` NICHT auf GitHub

@@ -115,7 +115,62 @@ Aufgabe: Eine Sache selbst ändern ohne KI zu fragen.
 
 ---
 
-## Schritt 4 — Schüler-Projekt starten (30 min)
+## Schritt 4 — Die Gemini-CLI: KI direkt im Terminal (40 min)
+
+Bisher war die KI im Browser (Chat, Prompt Lab). Die **Gemini-CLI** bringt die KI ins **Terminal** —
+und dort kann sie **Dateien lesen und selbst schreiben**. Kein Copy-Paste mehr.
+
+**Vorbereitung (Trainer):** Das fertige Bundle verteilen (Node ist mit drin, keine Installation):
+`gemini-ki-portable-mit-node.zip` — Download:
+`https://github.com/Coding4Kids-at/Docker-Kurs/releases/download/v1.3/gemini-ki-portable-mit-node.zip`
+
+**Schritt 4a — CLI starten:**
+Bundle **entpacken** (Rechtsklick → Alle extrahieren), dann Doppelklick auf `KI-STARTEN.cmd`
+(Windows) bzw. `KI-starten.command` (Mac). Beim ersten Start wird der Trainer-Key abgefragt (derselbe
+wie in der App). **Der entpackte Bundle-Ordner ist ab jetzt euer Projektordner** — die CLI arbeitet
+genau hier.
+
+Erste Fragen direkt im Terminal:
+```
+Erkläre mir in einem Satz was eine CLI ist.
+Schreib mir eine Datei hallo.txt mit einem Gruß darin.
+```
+→ Schau nach: Die Datei `hallo.txt` ist im Bundle-Ordner wirklich aufgetaucht. Die KI hat sie
+selbst geschrieben.
+
+**Schritt 4b — GEMINI.md: der KI Kontext geben:**
+Erstelle im Bundle-Ordner eine Datei `GEMINI.md`:
+```
+Ich heiße [DEIN NAME] und bin im KI-Workshop.
+Ich baue gerade einen [DEIN BOT-THEMA]-Bot.
+Antworte immer auf Deutsch und erkläre Befehle anfängerfreundlich.
+```
+CLI **neu starten** (Fenster schließen, `KI-STARTEN.cmd` erneut). Merkst du den Unterschied?
+Die KI kennt jetzt deinen Kontext bei jedem Start.
+
+**Schritt 4c — Einen eigenen Skill bauen:**
+Ein Skill ist ein Befehl, den du selbst erfindest. Erstelle `.gemini/commands/witz.toml`:
+```
+description = "Erzählt einen kurzen Programmier-Witz"
+prompt = "Erzähl mir einen kurzen, kindgerechten Witz über Programmieren."
+```
+CLI neu starten, dann im Terminal `/witz` tippen. Dein eigener Befehl läuft!
+
+**Schritt 4d — Mit der CLI die HTML-Seite erweitern:**
+Kopier deine `index.html` aus Schritt 3 in den Bundle-Ordner. Dann in der CLI:
+```
+Öffne index.html und füge einen zweiten Button "Überraschung" hinzu, der die
+Hintergrundfarbe zufällig ändert. Ändere nur was nötig ist.
+```
+→ Die KI ändert die **Datei direkt**. Im Browser neu laden, prüfen. Verstehen-Check: Was genau hat
+sie geändert?
+
+**Verstehen-Check:** "Was kann die CLI, was der Browser-Chat nicht kann?" → Dateien direkt lesen und
+schreiben, im Projektordner arbeiten, eigene Befehle (Skills).
+
+---
+
+## Schritt 5 — Schüler-Projekt starten (30 min)
 
 **Projektauswahl:**
 Jede:r entscheidet sich für ein Bot-Thema.

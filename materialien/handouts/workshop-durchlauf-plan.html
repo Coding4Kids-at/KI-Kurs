@@ -1,0 +1,230 @@
+<title>KI im Griff — vom leeren Laptop zur eigenen KI-Werkstatt</title>
+<style>
+  :root {
+    --bg: #f6f5fd; --surface: #ffffff; --surface-2: #efecfa; --text: #1a1626;
+    --muted: #625a72; --border: #e6e1f3; --accent: #7c3aed; --accent-soft: #efe8fd;
+    --good: #167c4a; --good-soft: #e4f5ec; --warn: #9a5b00; --warn-soft: #fbf0dc;
+    --code-bg: #171226; --code-text: #e6ddf7; --code-comment: #8b7fa6; --code-accent: #b794f6;
+    --radius: 14px; --maxw: 760px;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #100b1c; --surface: #191330; --surface-2: #221a3d; --text: #ece7f8;
+      --muted: #9c92b5; --border: #2c2348; --accent: #a78bfa; --accent-soft: #241a44;
+      --good: #4fce8d; --good-soft: #143024; --warn: #f0b25a; --warn-soft: #33260f;
+      --code-bg: #0b0716; --code-text: #ded4f2;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #100b1c; --surface: #191330; --surface-2: #221a3d; --text: #ece7f8;
+    --muted: #9c92b5; --border: #2c2348; --accent: #a78bfa; --accent-soft: #241a44;
+    --good: #4fce8d; --good-soft: #143024; --warn: #f0b25a; --warn-soft: #33260f;
+    --code-bg: #0b0716; --code-text: #ded4f2;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--text);
+    font-family: "Segoe UI", system-ui, -apple-system, Roboto, Helvetica, Arial, sans-serif;
+    line-height: 1.6; font-size: 17px; -webkit-font-smoothing: antialiased; }
+  .wrap { max-width: var(--maxw); margin: 0 auto; padding: 0 20px 96px; }
+  header { padding: 56px 0 8px; }
+  .eyebrow { font-size: 13px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase;
+    color: var(--accent); margin: 0 0 14px; }
+  h1 { font-size: clamp(30px, 6vw, 44px); line-height: 1.08; letter-spacing: -.02em; font-weight: 800;
+    margin: 0 0 16px; text-wrap: balance; }
+  .lead { font-size: 18px; color: var(--muted); margin: 0 0 8px; max-width: 60ch; }
+  .meta-row { display: flex; flex-wrap: wrap; gap: 10px; margin: 26px 0 8px; }
+  .chip { display: inline-flex; align-items: center; gap: 7px; background: var(--surface);
+    border: 1px solid var(--border); border-radius: 999px; padding: 7px 14px; font-size: 14px; font-weight: 600; }
+  .chip b { color: var(--accent); }
+  .phase { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius);
+    padding: 26px 26px 24px; margin-top: 22px; }
+  .phase-head { display: flex; align-items: baseline; gap: 14px; margin-bottom: 6px; }
+  .pnum { flex: none; font-size: 14px; font-weight: 800; letter-spacing: .04em; color: var(--accent);
+    background: var(--accent-soft); border-radius: 8px; padding: 4px 10px; line-height: 1.2; font-variant-numeric: tabular-nums; }
+  .phase h2 { font-size: 22px; letter-spacing: -.01em; margin: 0; font-weight: 800; }
+  .phase .sub { color: var(--muted); font-size: 15px; margin: 2px 0 18px 0; }
+  .once { color: var(--warn); font-weight: 700; }
+  .cond { display: inline-block; font-size: 11.5px; font-weight: 800; letter-spacing: .03em;
+    text-transform: uppercase; color: var(--warn); background: var(--warn-soft); border-radius: 6px;
+    padding: 2px 8px; margin-left: 8px; vertical-align: middle; }
+  ol.steps { list-style: none; counter-reset: s; margin: 0; padding: 0; }
+  ol.steps > li { counter-increment: s; position: relative; padding: 0 0 22px 42px; }
+  ol.steps > li::before { content: counter(s); position: absolute; left: 0; top: 0; width: 28px; height: 28px;
+    border-radius: 50%; background: var(--surface-2); color: var(--text); border: 1px solid var(--border);
+    display: grid; place-items: center; font-size: 14px; font-weight: 700; font-variant-numeric: tabular-nums; }
+  ol.steps > li:last-child { padding-bottom: 0; }
+  .step-title { font-weight: 700; }
+  ol.steps p { margin: 4px 0 0; }
+  a { color: var(--accent); font-weight: 600; }
+  .cmd { position: relative; background: var(--code-bg); border-radius: 10px; margin: 12px 0 4px; overflow: hidden; }
+  .cmd-bar { display: flex; align-items: center; justify-content: space-between; padding: 8px 12px;
+    border-bottom: 1px solid rgba(255,255,255,.07); }
+  .cmd-bar .where { font-family: ui-monospace, "Cascadia Code", Consolas, monospace; font-size: 12px;
+    color: var(--code-comment); letter-spacing: .02em; }
+  .copy { appearance: none; border: 1px solid rgba(255,255,255,.14); background: rgba(255,255,255,.04);
+    color: #ded4f2; font-size: 12px; font-weight: 600; padding: 5px 12px; border-radius: 7px; cursor: pointer;
+    transition: background .15s, border-color .15s; font-family: inherit; }
+  .copy:hover { background: rgba(255,255,255,.1); }
+  .copy.done { color: #4fce8d; border-color: rgba(79,206,141,.5); }
+  pre { margin: 0; padding: 14px 16px; overflow-x: auto; font-family: ui-monospace, "Cascadia Code", Consolas, monospace;
+    font-size: 14.5px; line-height: 1.65; color: var(--code-text); }
+  .note { display: flex; gap: 12px; align-items: flex-start; border-radius: 10px; padding: 13px 15px;
+    margin: 14px 0 0; font-size: 15px; }
+  .note .ic { flex: none; font-weight: 800; font-size: 15px; margin-top: 1px; }
+  .check { background: var(--good-soft); color: var(--good); }
+  .heads-up { background: var(--warn-soft); color: var(--warn); }
+  .note .txt { color: var(--text); }
+  .check .txt b { color: var(--good); }
+  .heads-up .txt b { color: var(--warn); }
+  .days { display: grid; gap: 12px; margin: 4px 0 0; padding: 0; list-style: none; }
+  .day { display: grid; grid-template-columns: auto 1fr; gap: 14px; align-items: start; background: var(--surface-2);
+    border: 1px solid var(--border); border-radius: 11px; padding: 14px 16px; }
+  .day .tag { font-size: 12px; font-weight: 800; letter-spacing: .04em; text-transform: uppercase; color: var(--accent);
+    background: var(--accent-soft); border-radius: 7px; padding: 5px 9px; white-space: nowrap; align-self: start; }
+  .day h3 { margin: 1px 0 3px; font-size: 16px; }
+  .day p { margin: 0; font-size: 14.5px; color: var(--muted); }
+  hr.soft { border: none; border-top: 1px solid var(--border); margin: 30px 0 0; }
+  footer { color: var(--muted); font-size: 14px; margin-top: 34px; text-align: center; }
+  .toggle { position: fixed; top: 16px; right: 16px; z-index: 10; appearance: none; border: 1px solid var(--border);
+    background: var(--surface); color: var(--text); border-radius: 999px; padding: 8px 14px; font-size: 13px;
+    font-weight: 600; cursor: pointer; font-family: inherit; }
+  @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+</style>
+
+<button class="toggle" id="themeBtn" type="button" aria-label="Hell/Dunkel umschalten">◐ Theme</button>
+
+<div class="wrap">
+  <header>
+    <p class="eyebrow">Coding4Kids · KI im Griff</p>
+    <h1>Vom leeren Laptop zur eigenen KI-Werkstatt</h1>
+    <p class="lead">Diese Anleitung bringt einen Laptop, auf dem noch <em>nichts</em> läuft, Schritt für Schritt zum Workshop. Am Ende hast du deine eigene KI-Lab-App offen — und kannst loslegen.</p>
+    <div class="meta-row">
+      <span class="chip">🖥️ <b>Windows 11</b></span>
+      <span class="chip">⏱️ Setup <b>~15 Min</b></span>
+      <span class="chip">🧩 Vorwissen <b>keins</b></span>
+    </div>
+  </header>
+
+  <div class="note check" style="margin-top:24px">
+    <span class="ic">➜</span>
+    <span class="txt">So liest du das: Jeder graue Kasten ist ein <b>Befehl</b>. Klick <b>Kopieren</b>, füg ihn ins Terminal ein (Rechtsklick = Einfügen), drück <b>Enter</b>. Der grüne Kasten sagt, <b>was du sehen solltest</b>.</span>
+  </div>
+
+  <!-- PHASE 0 -->
+  <section class="phase">
+    <div class="phase-head"><span class="pnum">Phase 0</span><h2>Werkzeuge prüfen &amp; nur Fehlendes installieren</h2></div>
+    <p class="sub"><span class="once">Meist nur einmal nötig.</span> Auf den Workshop-Laptops ist oft schon alles da — deshalb <b>zuerst prüfen</b>.</p>
+    <ol class="steps">
+      <li>
+        <span class="step-title">Terminal öffnen</span>
+        <p>Windows-Taste, <code>PowerShell</code> tippen, Enter. Das Fenster ist dein Terminal.</p>
+      </li>
+      <li>
+        <span class="step-title">Prüfen, was schon da ist</span>
+        <div class="cmd"><div class="cmd-bar"><span class="where">PowerShell</span><button class="copy" type="button">Kopieren</button></div><pre>docker --version
+node --version</pre></div>
+        <div class="note check"><span class="ic">✓</span><span class="txt">Kommt eine <b>Versionsnummer</b>? Dann ist das Programm da — den Installations-Schritt überspringen.</span></div>
+        <div class="note heads-up"><span class="ic">✕</span><span class="txt">Steht dort <b>„not recognized"</b>? Dann fehlt es — unten nachinstallieren.</span></div>
+      </li>
+      <li>
+        <span class="step-title">Docker Desktop <span class="cond">nur falls oben gefehlt</span></span>
+        <p>Öffne <a href="https://www.docker.com/products/docker-desktop/" target="_blank" rel="noopener">docker.com → Docker Desktop</a>, installieren, <b>PC neu starten</b>. Dann Docker Desktop öffnen und warten, bis links unten der Wal grün ist.</p>
+        <div class="note heads-up"><span class="ic">⚠</span><span class="txt"><b>Der Wal muss laufen.</b> Kommt später „Cannot connect to the Docker daemon", ist Docker einfach nicht offen.</span></div>
+      </li>
+      <li>
+        <span class="step-title">Node.js <span class="cond">nur falls oben gefehlt</span></span>
+        <p>Öffne <a href="https://nodejs.org" target="_blank" rel="noopener">nodejs.org</a>, große grüne Taste (Version <b>24+</b>), installieren, Terminal neu öffnen. (Brauchst du ab Tag 3 für deine eigenen Projekte.)</p>
+      </li>
+    </ol>
+  </section>
+
+  <!-- PHASE 1 -->
+  <section class="phase">
+    <div class="phase-head"><span class="pnum">Phase 1</span><h2>Die KI-Lab-App holen &amp; starten</h2></div>
+    <p class="sub">Die App ist dein Cockpit: Aufgaben, KI-Chat, Prompt Lab, Token-Visualizer und Fehler-Log. Sie kommt als fertiger Container — nichts zu bauen.</p>
+    <ol class="steps">
+      <li>
+        <span class="step-title">App-Paket holen</span>
+        <div class="cmd"><div class="cmd-bar"><span class="where">PowerShell</span><button class="copy" type="button">Kopieren</button></div><pre>docker pull ghcr.io/intsanerarity/ki-lab:latest</pre></div>
+        <div class="note check"><span class="ic">✓</span><span class="txt">Am Ende <code>Status: Downloaded newer image…</code> (oder <code>Image is up to date</code>).</span></div>
+      </li>
+      <li>
+        <span class="step-title">App starten (mit Trainer-Key)</span>
+        <p>Der Trainer gibt dir den API-Key — trag ihn statt <code>KEY-VOM-TRAINER</code> ein:</p>
+        <div class="cmd"><div class="cmd-bar"><span class="where">PowerShell</span><button class="copy" type="button">Kopieren</button></div><pre>docker run -d -p 3000:3000 --name ki-lab -e GEMINI_API_KEY=KEY-VOM-TRAINER ghcr.io/intsanerarity/ki-lab:latest</pre></div>
+        <div class="note check"><span class="ic">✓</span><span class="txt">Du siehst eine lange Container-ID — sonst nichts. Genau richtig, die App läuft im Hintergrund.</span></div>
+      </li>
+      <li>
+        <span class="step-title">Cockpit öffnen</span>
+        <div class="cmd"><div class="cmd-bar"><span class="where">Browser-Adresszeile</span><button class="copy" type="button">Kopieren</button></div><pre>http://localhost:3000</pre></div>
+        <div class="note check"><span class="ic">✓</span><span class="txt"><b>Geschafft:</b> Die KI-Lab-App fragt nach deinem Namen und zeigt die 5 Tage.</span></div>
+      </li>
+      <li>
+        <span class="step-title">Später wieder starten <span class="cond">nur bei Bedarf</span></span>
+        <p>Nach einem Neustart <b>nicht</b> nochmal <code>docker run</code> (Name schon vergeben), sondern:</p>
+        <div class="cmd"><div class="cmd-bar"><span class="where">PowerShell</span><button class="copy" type="button">Kopieren</button></div><pre>docker start ki-lab</pre></div>
+        <div class="note check"><span class="ic">✓</span><span class="txt">Dein Fortschritt bleibt erhalten. Danach wieder <code>http://localhost:3000</code>.</span></div>
+      </li>
+    </ol>
+  </section>
+
+  <!-- PHASE 2 -->
+  <section class="phase">
+    <div class="phase-head"><span class="pnum">Phase 2</span><h2>Der Durchlauf — die 5 Tage</h2></div>
+    <p class="sub">Die genauen Aufgaben stehen <b>in der App</b>. Hier nur der rote Faden.</p>
+    <ul class="days">
+      <li class="day"><span class="tag">Tag 1</span><div><h3>KI verstehen</h3><p>Was ist ein LLM? Tokens, Kontext und warum die KI „das Nächste vorhersagt". Erste Fragen im KI-Chat.</p></div></li>
+      <li class="day"><span class="tag">Tag 2</span><div><h3>KI hinterfragen</h3><p>Halluzinationen, Bias und Rechenfehler aufspüren — und im Fehler-Log dokumentieren. KI ist nicht immer richtig.</p></div></li>
+      <li class="day"><span class="tag">Tag 3</span><div><h3>Mit KI bauen</h3><p>Prompt Lab, System-Prompts, eine eigene HTML-Seite mit der KI als Co-Pilot — und die Gemini-CLI im Terminal.</p></div></li>
+      <li class="day"><span class="tag">Tag 4</span><div><h3>Daten &amp; APIs</h3><p>Echte Daten aus dem Netz holen, eine eigene Mini-API bauen und die Gemini-API ins eigene Projekt einbinden.</p></div></li>
+      <li class="day"><span class="tag">Tag 5</span><div><h3>Finale</h3><p>Dein eigenes KI-Projekt fertigstellen, README schreiben, der Gruppe vorstellen.</p></div></li>
+    </ul>
+    <div class="note check" style="margin-top:16px"><span class="ic">➜</span><span class="txt">In der App: Tag wählen, Aufgabe lesen, ausprobieren, Antwort eintragen, abhaken. Der KI-Chat hilft dir jederzeit weiter.</span></div>
+  </section>
+
+  <!-- PHASE 3 -->
+  <section class="phase">
+    <div class="phase-head"><span class="pnum">Phase 3</span><h2>Am Ende</h2></div>
+    <p class="sub">Wenn du fertig bist — damit nichts im Hintergrund weiterläuft.</p>
+    <ol class="steps">
+      <li><span class="step-title">App stoppen</span>
+        <div class="cmd"><div class="cmd-bar"><span class="where">PowerShell</span><button class="copy" type="button">Kopieren</button></div><pre>docker stop ki-lab</pre></div>
+        <p>Dein Fortschritt bleibt gespeichert — beim nächsten Mal <code>docker start ki-lab</code>.</p>
+      </li>
+    </ol>
+  </section>
+
+  <!-- HELP -->
+  <section class="phase">
+    <div class="phase-head"><span class="pnum">Hilfe</span><h2>Falls es hakt</h2></div>
+    <div class="note heads-up"><span class="ic">✕</span><span class="txt"><b>„Cannot connect to the Docker daemon"</b> — Docker Desktop ist nicht offen. Starten, Wal abwarten.</span></div>
+    <div class="note heads-up" style="margin-top:10px"><span class="ic">✕</span><span class="txt"><b>localhost:3000 zeigt nichts</b> — läuft der Container? <code>docker ps</code>; wenn <code>ki-lab</code> fehlt: <code>docker start ki-lab</code>.</span></div>
+    <div class="note heads-up" style="margin-top:10px"><span class="ic">✕</span><span class="txt"><b>Chat sagt „Trainer fragen"</b> — der Key wurde beim Start nicht übergeben. <code>docker rm -f ki-lab</code> und mit korrektem <code>-e GEMINI_API_KEY=…</code> neu starten.</span></div>
+    <div class="note heads-up" style="margin-top:10px"><span class="ic">✕</span><span class="txt"><b>„name /ki-lab is already in use"</b> — App läuft schon. Nicht neu <code>run</code>en, sondern <code>docker start ki-lab</code>.</span></div>
+  </section>
+
+  <hr class="soft">
+  <footer>Wenn du bis hier gekommen bist, schaffst du auch den Rest. Viel Spaß mit der KI. 🤖</footer>
+</div>
+
+<script>
+  (function () {
+    var btn = document.getElementById('themeBtn');
+    btn.addEventListener('click', function () {
+      var root = document.documentElement;
+      var current = root.getAttribute('data-theme');
+      if (!current) { current = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'; }
+      root.setAttribute('data-theme', current === 'dark' ? 'light' : 'dark');
+    });
+  })();
+  document.querySelectorAll('.cmd').forEach(function (box) {
+    var btn = box.querySelector('.copy'); var pre = box.querySelector('pre');
+    if (!btn || !pre) return;
+    btn.addEventListener('click', function () {
+      navigator.clipboard.writeText(pre.innerText).then(function () {
+        var old = btn.textContent; btn.textContent = 'Kopiert ✓'; btn.classList.add('done');
+        setTimeout(function () { btn.textContent = old; btn.classList.remove('done'); }, 1600);
+      });
+    });
+  });
+</script>
