@@ -4,7 +4,7 @@ import path from 'node:path'
 const DB_PATH = process.env.DB_PATH || path.join(process.cwd(), '..', 'data', 'kilab.db')
 
 // Bump this when the seed tasks change — the DB is then re-seeded automatically.
-const SEED_VERSION = 8
+const SEED_VERSION = 9
 
 let db
 
