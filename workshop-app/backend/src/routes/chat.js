@@ -48,7 +48,7 @@ router.post('/stream', async (req, res) => {
 
     const result = await model.generateContentStream({
       contents,
-      generationConfig: { maxOutputTokens: 600 },
+      generationConfig: { maxOutputTokens: 2048, thinkingConfig: { thinkingBudget: 0 } },
     })
 
     for await (const chunk of result.stream) {

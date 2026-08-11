@@ -21,7 +21,7 @@ router.post('/run', async (req, res) => {
     const model = genAI.getGenerativeModel({
       model: 'gemini-2.5-flash',
       systemInstruction: systemPrompt || undefined,
-      generationConfig: { maxOutputTokens: 800 },
+      generationConfig: { maxOutputTokens: 2048, thinkingConfig: { thinkingBudget: 0 } },
     })
     const result = await model.generateContent(userPrompt)
     res.json({ antwort: result.response.text() })
