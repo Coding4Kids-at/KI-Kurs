@@ -96,7 +96,7 @@ function TaskCard({ task, openHints, setOpenHints, answers, setAnswers, saved, o
         </button>
         <div className="flex-1 min-w-0">
           <div className={`font-medium text-sm ${done ? 'line-through text-gray-400' : 'text-gray-800'}`}>{task.title}</div>
-          <div className="text-gray-500 text-xs mt-0.5">{task.description}</div>
+          <div className="text-gray-500 text-xs mt-0.5 whitespace-pre-line">{task.description}</div>
 
           {task.hint && (
             <div className="mt-2">
@@ -107,7 +107,7 @@ function TaskCard({ task, openHints, setOpenHints, answers, setAnswers, saved, o
                 {openHints[task.id] ? 'Hinweis ausblenden' : 'Hinweis anzeigen'}
               </button>
               {openHints[task.id] && (
-                <div className="mt-1.5 text-xs text-amber-700 bg-amber-50 border border-amber-100 rounded-lg px-3 py-2">
+                <div className="mt-1.5 text-xs text-amber-700 bg-amber-50 border border-amber-100 rounded-lg px-3 py-2 whitespace-pre-line">
                   {task.hint}
                 </div>
               )}
