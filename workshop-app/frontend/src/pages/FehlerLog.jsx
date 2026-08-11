@@ -38,13 +38,13 @@ export default function FehlerLog() {
 
   return (
     <div className="max-w-2xl">
-      <h1 className="text-2xl font-bold text-gray-800 mb-1">Fehler-Log</h1>
-      <p className="text-gray-500 text-sm mb-6">
+      <h1 className="text-2xl font-bold text-gray-800 dark:text-gray-100 mb-1">Fehler-Log</h1>
+      <p className="text-gray-500 dark:text-gray-400 text-sm mb-6">
         Dokumentiere KI-Fehler die du entdeckt hast. Das schärft deinen kritischen Blick.
       </p>
 
-      <div className="bg-white border border-gray-200 rounded-xl p-5 mb-6 space-y-3">
-        <h2 className="font-semibold text-sm text-gray-700">Neuer Eintrag</h2>
+      <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-5 mb-6 space-y-3">
+        <h2 className="font-semibold text-sm text-gray-700 dark:text-gray-200">Neuer Eintrag</h2>
         {[
           { key: 'frage', label: 'Was hast du gefragt?', placeholder: 'Deine Frage an die KI' },
           { key: 'ki_antwort', label: 'Was hat die KI geantwortet?', placeholder: 'Die KI-Antwort' },
@@ -52,13 +52,13 @@ export default function FehlerLog() {
           { key: 'erkenntnis', label: 'Wie hätte man es merken können?', placeholder: 'Deine Erkenntnis' },
         ].map(({ key, label, placeholder }) => (
           <div key={key}>
-            <label className="block text-xs font-medium text-gray-600 mb-1">{label}</label>
+            <label className="block text-xs font-medium text-gray-600 dark:text-gray-300 mb-1">{label}</label>
             <textarea
               value={form[key]}
               onChange={e => setField(key, e.target.value)}
               placeholder={placeholder}
               rows={2}
-              className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm resize-none focus:outline-none focus:ring-1 focus:ring-brand-400"
+              className="w-full border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 rounded-lg px-3 py-2 text-sm resize-none focus:outline-none focus:ring-1 focus:ring-brand-400"
             />
           </div>
         ))}
@@ -72,24 +72,24 @@ export default function FehlerLog() {
       </div>
 
       <div className="space-y-3">
-        <div className="text-xs font-medium text-gray-500 uppercase tracking-wide">{entries.length} Einträge</div>
+        <div className="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wide">{entries.length} Einträge</div>
         {entries.length === 0 && (
-          <p className="text-gray-400 text-sm">Noch keine Einträge. Fang an KI-Fehler zu provozieren!</p>
+          <p className="text-gray-400 dark:text-gray-500 text-sm">Noch keine Einträge. Fang an KI-Fehler zu provozieren!</p>
         )}
         {entries.map(e => (
-          <div key={e.id} className="bg-white border border-red-100 rounded-xl p-4 relative">
+          <div key={e.id} className="bg-white dark:bg-gray-800 border border-red-100 dark:border-red-900/40 rounded-xl p-4 relative">
             <button
               onClick={() => deleteEntry(e.id)}
-              className="absolute top-3 right-3 text-gray-300 hover:text-red-400 text-sm leading-none"
+              className="absolute top-3 right-3 text-gray-300 dark:text-gray-500 hover:text-red-400 text-sm leading-none"
             >
               &times;
             </button>
-            <div className="text-xs text-gray-400 mb-2">{e.erstellt_am?.slice(0, 16)}</div>
+            <div className="text-xs text-gray-400 dark:text-gray-500 mb-2">{e.erstellt_am?.slice(0, 16)}</div>
             <div className="space-y-2">
               <Row label="Frage" value={e.frage} />
-              <Row label="KI-Antwort" value={e.ki_antwort} color="text-red-700" />
+              <Row label="KI-Antwort" value={e.ki_antwort} color="text-red-700 dark:text-red-400" />
               <Row label="Was war falsch" value={e.was_war_falsch} />
-              <Row label="Erkenntnis" value={e.erkenntnis} color="text-green-700" />
+              <Row label="Erkenntnis" value={e.erkenntnis} color="text-green-700 dark:text-green-400" />
             </div>
           </div>
         ))}
@@ -98,10 +98,10 @@ export default function FehlerLog() {
   )
 }
 
-function Row({ label, value, color = 'text-gray-700' }) {
+function Row({ label, value, color = 'text-gray-700 dark:text-gray-200' }) {
   return (
     <div>
-      <span className="text-xs text-gray-400 font-medium">{label}: </span>
+      <span className="text-xs text-gray-400 dark:text-gray-500 font-medium">{label}: </span>
       <span className={`text-xs ${color}`}>{value}</span>
     </div>
   )

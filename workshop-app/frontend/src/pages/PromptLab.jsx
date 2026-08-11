@@ -45,8 +45,8 @@ export default function PromptLab() {
 
   return (
     <div className="max-w-3xl">
-      <h1 className="text-2xl font-bold text-gray-800 mb-1">Prompt Lab</h1>
-      <p className="text-gray-500 text-sm mb-6">Probiere verschiedene Prompts aus und vergleiche die Ergebnisse.</p>
+      <h1 className="text-2xl font-bold text-gray-800 dark:text-gray-100 mb-1">Prompt Lab</h1>
+      <p className="text-gray-500 dark:text-gray-400 text-sm mb-6">Probiere verschiedene Prompts aus und vergleiche die Ergebnisse.</p>
 
       <div className="flex gap-2 mb-4">
         {['lab', 'saves'].map(t => (
@@ -54,7 +54,7 @@ export default function PromptLab() {
             key={t}
             onClick={() => setActiveTab(t)}
             className={`px-4 py-1.5 rounded-lg text-sm font-medium transition-colors ${
-              activeTab === t ? 'bg-brand-600 text-white' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+              activeTab === t ? 'bg-brand-600 text-white' : 'bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
             }`}
           >
             {t === 'lab' ? 'Prompt testen' : 'Gespeicherte'}
@@ -65,23 +65,23 @@ export default function PromptLab() {
       {activeTab === 'lab' && (
         <div className="space-y-4">
           <div>
-            <label className="block text-xs font-medium text-gray-600 mb-1">System-Prompt (optional)</label>
+            <label className="block text-xs font-medium text-gray-600 dark:text-gray-300 mb-1">System-Prompt (optional)</label>
             <textarea
               value={systemPrompt}
               onChange={e => setSystemPrompt(e.target.value)}
               placeholder='z.B. "Du bist ein freundlicher Koch der nur über Pasta spricht."'
               rows={3}
-              className="w-full border border-gray-200 rounded-xl px-4 py-2 text-sm resize-none focus:outline-none focus:ring-2 focus:ring-brand-400"
+              className="w-full border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 rounded-xl px-4 py-2 text-sm resize-none focus:outline-none focus:ring-2 focus:ring-brand-400"
             />
           </div>
           <div>
-            <label className="block text-xs font-medium text-gray-600 mb-1">Dein Prompt</label>
+            <label className="block text-xs font-medium text-gray-600 dark:text-gray-300 mb-1">Dein Prompt</label>
             <textarea
               value={userPrompt}
               onChange={e => setUserPrompt(e.target.value)}
               placeholder="Was möchtest du die KI fragen?"
               rows={3}
-              className="w-full border border-gray-200 rounded-xl px-4 py-2 text-sm resize-none focus:outline-none focus:ring-2 focus:ring-brand-400"
+              className="w-full border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 rounded-xl px-4 py-2 text-sm resize-none focus:outline-none focus:ring-2 focus:ring-brand-400"
             />
           </div>
           <button
@@ -93,15 +93,15 @@ export default function PromptLab() {
           </button>
 
           {result && (
-            <div className="bg-gray-50 border border-gray-200 rounded-xl p-4">
-              <div className="text-xs text-gray-400 mb-2 font-medium">KI-Antwort</div>
-              <div className="text-sm text-gray-800 whitespace-pre-wrap">{result}</div>
+            <div className="bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-4">
+              <div className="text-xs text-gray-400 dark:text-gray-500 mb-2 font-medium">KI-Antwort</div>
+              <div className="text-sm text-gray-800 dark:text-gray-100 whitespace-pre-wrap">{result}</div>
               <div className="mt-3 flex gap-2 items-center">
                 <input
                   value={saveName}
                   onChange={e => setSaveName(e.target.value)}
                   placeholder='Name zum Speichern (z.B. "Version A")'
-                  className="flex-1 border border-gray-200 rounded-lg px-3 py-1.5 text-xs focus:outline-none focus:ring-1 focus:ring-brand-400"
+                  className="flex-1 border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 rounded-lg px-3 py-1.5 text-xs focus:outline-none focus:ring-1 focus:ring-brand-400"
                 />
                 <button
                   onClick={save}
@@ -119,16 +119,16 @@ export default function PromptLab() {
       {activeTab === 'saves' && (
         <div className="space-y-3">
           {saves.length === 0 && (
-            <p className="text-gray-400 text-sm">Noch keine gespeicherten Prompts.</p>
+            <p className="text-gray-400 dark:text-gray-500 text-sm">Noch keine gespeicherten Prompts.</p>
           )}
           {saves.map(s => (
-            <div key={s.id} className="bg-white border border-gray-200 rounded-xl p-4">
+            <div key={s.id} className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-4">
               <div className="flex justify-between items-start mb-2">
-                <span className="font-medium text-sm text-gray-800">{s.name}</span>
-                <span className="text-xs text-gray-400">{s.erstellt_am?.slice(0, 16)}</span>
+                <span className="font-medium text-sm text-gray-800 dark:text-gray-100">{s.name}</span>
+                <span className="text-xs text-gray-400 dark:text-gray-500">{s.erstellt_am?.slice(0, 16)}</span>
               </div>
-              <div className="text-xs text-gray-500 mb-2 bg-gray-50 rounded-lg px-3 py-2 font-mono">{s.prompt}</div>
-              <div className="text-xs text-gray-700 whitespace-pre-wrap">{s.antwort}</div>
+              <div className="text-xs text-gray-500 dark:text-gray-300 mb-2 bg-gray-50 dark:bg-gray-900 rounded-lg px-3 py-2 font-mono">{s.prompt}</div>
+              <div className="text-xs text-gray-700 dark:text-gray-200 whitespace-pre-wrap">{s.antwort}</div>
             </div>
           ))}
         </div>

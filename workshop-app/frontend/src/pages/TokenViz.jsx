@@ -93,11 +93,11 @@ export default function TokenViz() {
 
   return (
     <div className="max-w-2xl">
-      <h1 className="text-2xl font-bold text-gray-800 mb-1">Token-Visualizer</h1>
-      <p className="text-gray-500 text-sm mb-2">
+      <h1 className="text-2xl font-bold text-gray-800 dark:text-gray-100 mb-1">Token-Visualizer</h1>
+      <p className="text-gray-500 dark:text-gray-400 text-sm mb-2">
         KI liest keine Wörter — sie liest Tokens. Gib Text ein und sieh, wie er zerlegt wird.
       </p>
-      <p className="text-xs text-amber-700 bg-amber-50 border border-amber-100 rounded-lg px-3 py-2 mb-6">
+      <p className="text-xs text-amber-700 dark:text-amber-300 bg-amber-50 dark:bg-amber-900/25 border border-amber-100 dark:border-amber-800 rounded-lg px-3 py-2 mb-6">
         Hinweis: Diese Darstellung ist eine vereinfachte Annäherung, keine exakte Tokenisierung. Der echte Tokenizer teilt etwas anders auf — der Effekt ist aber derselbe.
       </p>
 
@@ -106,7 +106,7 @@ export default function TokenViz() {
           <button
             key={e}
             onClick={() => setText(e)}
-            className="px-3 py-1 text-xs bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-full transition-colors"
+            className="px-3 py-1 text-xs bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-200 rounded-full transition-colors"
           >
             {e}
           </button>
@@ -118,20 +118,20 @@ export default function TokenViz() {
           value={text}
           onChange={e => setText(e.target.value)}
           placeholder="Eigenen Text eingeben..."
-          className="flex-1 border border-gray-200 rounded-xl px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-400"
+          className="flex-1 border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 rounded-xl px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-400"
         />
       </div>
 
       {tokenCount > 0 && (
-        <div className="bg-white border border-gray-200 rounded-xl p-5">
+        <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-5">
           {/* Wörter vs. Tokens — die Kernaussage */}
           <div className="flex items-center gap-3 mb-5">
-            <span className="inline-flex items-center gap-1.5 rounded-lg bg-gray-100 px-3 py-1.5 text-sm text-gray-700">
-              <strong className="text-lg text-gray-900">{wordCount}</strong> {wordCount === 1 ? 'Wort' : 'Wörter'}
+            <span className="inline-flex items-center gap-1.5 rounded-lg bg-gray-100 dark:bg-gray-700 px-3 py-1.5 text-sm text-gray-700 dark:text-gray-200">
+              <strong className="text-lg text-gray-900 dark:text-gray-50">{wordCount}</strong> {wordCount === 1 ? 'Wort' : 'Wörter'}
             </span>
-            <span className="text-gray-300 text-xl">→</span>
-            <span className="inline-flex items-center gap-1.5 rounded-lg bg-brand-50 px-3 py-1.5 text-sm text-brand-700">
-              <strong className="text-lg text-brand-700">{tokenCount}</strong> Tokens
+            <span className="text-gray-300 dark:text-gray-500 text-xl">→</span>
+            <span className="inline-flex items-center gap-1.5 rounded-lg bg-brand-50 dark:bg-brand-900/40 px-3 py-1.5 text-sm text-brand-700 dark:text-brand-300">
+              <strong className="text-lg text-brand-700 dark:text-brand-300">{tokenCount}</strong> Tokens
             </span>
           </div>
 
@@ -142,7 +142,7 @@ export default function TokenViz() {
               return (
                 <div key={gi} className="flex flex-col items-center gap-1">
                   {g.kind === 'space' ? (
-                    <span className="inline-flex items-center rounded-md bg-gray-100 text-gray-400 border border-dashed border-gray-300 px-2 py-1 text-sm font-mono">
+                    <span className="inline-flex items-center rounded-md bg-gray-100 dark:bg-gray-700 text-gray-400 dark:text-gray-400 border border-dashed border-gray-300 dark:border-gray-500 px-2 py-1 text-sm font-mono">
                       ␣
                     </span>
                   ) : (
@@ -158,14 +158,14 @@ export default function TokenViz() {
                     </span>
                   )}
                   {split && (
-                    <span className="text-[10px] text-gray-400 leading-none">1 Wort · {g.tokens.length} Tokens</span>
+                    <span className="text-[10px] text-gray-400 dark:text-gray-500 leading-none">1 Wort · {g.tokens.length} Tokens</span>
                   )}
                 </div>
               )
             })}
           </div>
 
-          <div className="border-t border-gray-100 pt-3 text-xs text-gray-500">
+          <div className="border-t border-gray-100 dark:border-gray-700 pt-3 text-xs text-gray-500 dark:text-gray-400">
             <strong>Was bedeutet das?</strong> Die KI verarbeitet deinen Text nicht als Wörter oder Buchstaben,
             sondern als diese {tokenCount} Teile — jeder wird als Zahl gespeichert. Ein langes Wort wie
             „Donaudampfschiff" kann in mehrere Tokens zerfallen, und selbst das Leerzeichen (␣) ist ein eigenes Token.
