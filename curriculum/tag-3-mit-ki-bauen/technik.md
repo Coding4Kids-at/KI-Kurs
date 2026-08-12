@@ -78,53 +78,17 @@ Im Prompt Lab speichern unter "Mein Bot V1".
 
 ---
 
-## Schritt 3 — Erste HTML-Seite mit KI (50 min)
-
-VS Code öffnen. Neuen Ordner erstellen: `mein-erster-bot/`
-
-**Schritt 3a — KI schreibt die Seite:**
-Im KI-Chat eingeben:
-```
-Du bist ein Web-Entwickler. Erstelle mir eine einfache HTML-Seite.
-Die Seite soll:
-- Einen Titel haben: "Mein Witze-Generator"
-- 5 vorgespeicherte Witze als Liste anzeigen
-- Einen Button "Neuer Witz" der zufällig einen Witz auswählt und groß anzeigt
-- Modern aussehen: weißer Hintergrund, blaue Überschrift, runder Button
-
-Gib mir nur den HTML-Code, ich kopiere ihn direkt in eine Datei.
-```
-
-Code kopieren → in `index.html` einfügen → im Browser öffnen.
-
-**Schritt 3b — Anpassungen mit KI:**
-Jetzt iterativ verbessern:
-- "Ändere die Schriftfarbe des Witzes auf Rot"
-- "Füge einen 'Witz teilen' Button hinzu (der nichts tut, nur sichtbar ist)"
-- "Mache die Seite dunkler — Dark Mode"
-
-Jede Änderung: Was hat KI geändert? Versteht man es?
-
-**Schritt 3c — Eigene Änderung ohne KI:**
-Aufgabe: Eine Sache selbst ändern ohne KI zu fragen.
-- Text eines Witzes ändern
-- Farbe eines Elements ändern
-- Einen eigenen Witz hinzufügen
-
-→ Beweis: Ich verstehe den Code, ich bin nicht abhängig von KI.
-
----
-
-## Schritt 4 — Die Gemini-CLI: KI direkt im Terminal (40 min)
+## Schritt 3 — Die Gemini-CLI: KI direkt im Terminal (35 min)
 
 Bisher war die KI im Browser (Chat, Prompt Lab). Die **Gemini-CLI** bringt die KI ins **Terminal** —
-und dort kann sie **Dateien lesen und selbst schreiben**. Kein Copy-Paste mehr.
+und dort kann sie **Dateien lesen und selbst schreiben**. Kein Copy-Paste mehr. Damit baut ihr gleich
+eure Webseite.
 
 **Vorbereitung (Trainer):** Das fertige Bundle verteilen (Node ist mit drin, keine Installation):
 `gemini-ki-portable-mit-node.zip` — Download:
 `https://github.com/Coding4Kids-at/Docker-Kurs/releases/download/v1.3/gemini-ki-portable-mit-node.zip`
 
-**Schritt 4a — CLI starten:**
+**Schritt 3a — CLI starten:**
 Bundle **entpacken** (Rechtsklick → Alle extrahieren), dann Doppelklick auf `KI-STARTEN.cmd`
 (Windows) bzw. `KI-starten.command` (Mac). Beim ersten Start wird der Trainer-Key abgefragt (derselbe
 wie in der App). **Der entpackte Bundle-Ordner ist ab jetzt euer Projektordner** — die CLI arbeitet
@@ -138,7 +102,7 @@ Schreib mir eine Datei hallo.txt mit einem Gruß darin.
 → Schau nach: Die Datei `hallo.txt` ist im Bundle-Ordner wirklich aufgetaucht. Die KI hat sie
 selbst geschrieben.
 
-**Schritt 4b — GEMINI.md: der KI Kontext geben:**
+**Schritt 3b — GEMINI.md: der KI Kontext geben:**
 Erstelle im Bundle-Ordner eine Datei `GEMINI.md`:
 ```
 Ich heiße [DEIN NAME] und bin im KI-Workshop.
@@ -148,22 +112,47 @@ Antworte immer auf Deutsch und erkläre Befehle anfängerfreundlich.
 CLI **neu starten** (Fenster schließen, `KI-STARTEN.cmd` erneut). Merkst du den Unterschied?
 Die KI kennt jetzt deinen Kontext bei jedem Start.
 
-**Schritt 4c — Einen eigenen Skill bauen:**
+---
+
+## Schritt 4 — Erste HTML-Seite mit der CLI bauen (50 min)
+
+Jetzt baut die CLI eine echte Webseite — und schreibt die Datei **direkt** in euren Ordner.
+
+**Schritt 4a — Ordner in VS Code öffnen:**
+VS Code öffnen → *Datei → Ordner öffnen* → den **entpackten Bundle-Ordner** aus Schritt 3 wählen.
+Links seht ihr jetzt alle Dateien, die die KI anlegt (`hallo.txt`, `GEMINI.md`). Ein zweites Terminal
+für die CLI startet ihr in VS Code über *Terminal → Neues Terminal* (oder wieder per `KI-STARTEN`).
+
+**Schritt 4b — KI schreibt die Seite (in der CLI):**
+```
+Erstelle eine Datei index.html: eine Seite mit dem Titel "Mein Witze-Generator",
+5 vorgespeicherten Witzen als Liste und einem Button "Neuer Witz", der zufällig
+einen Witz auswählt und groß anzeigt. Weißer Hintergrund, blaue Überschrift,
+runder Button.
+```
+→ In VS Code taucht `index.html` **von selbst** auf. Doppelklick → im Browser öffnen. Der Button muss
+funktionieren.
+
+**Schritt 4c — Anpassungen mit der CLI:**
+Iterativ verbessern, die KI ändert die Datei jedes Mal direkt:
+```
+Öffne index.html und ändere die Schriftfarbe des Witzes auf Rot.
+Füge einen Dark-Mode-Button hinzu, der die Seite dunkel schaltet.
+```
+Browser neu laden. Jede Änderung: Was genau hat die KI geändert? Versteht man es?
+
+**Schritt 4d — Eigene Änderung ohne KI:**
+Eine Sache selbst in VS Code ändern, ohne die KI zu fragen — Witz-Text, eine Farbe oder einen eigenen
+6. Witz. Speichern (`Strg+S`), Browser neu laden.
+→ Beweis: Ich verstehe den Code, ich bin nicht abhängig von KI.
+
+**Schritt 4e — Bonus: Einen eigenen Skill bauen:**
 Ein Skill ist ein Befehl, den du selbst erfindest. Erstelle `.gemini/commands/witz.toml`:
 ```
 description = "Erzählt einen kurzen Programmier-Witz"
 prompt = "Erzähl mir einen kurzen, kindgerechten Witz über Programmieren."
 ```
 CLI neu starten, dann im Terminal `/witz` tippen. Dein eigener Befehl läuft!
-
-**Schritt 4d — Mit der CLI die HTML-Seite erweitern:**
-Kopier deine `index.html` aus Schritt 3 in den Bundle-Ordner. Dann in der CLI:
-```
-Öffne index.html und füge einen zweiten Button "Überraschung" hinzu, der die
-Hintergrundfarbe zufällig ändert. Ändere nur was nötig ist.
-```
-→ Die KI ändert die **Datei direkt**. Im Browser neu laden, prüfen. Verstehen-Check: Was genau hat
-sie geändert?
 
 **Verstehen-Check:** "Was kann die CLI, was der Browser-Chat nicht kann?" → Dateien direkt lesen und
 schreiben, im Projektordner arbeiten, eigene Befehle (Skills).
