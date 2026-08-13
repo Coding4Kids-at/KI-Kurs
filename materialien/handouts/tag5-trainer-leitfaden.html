@@ -1,0 +1,219 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<title>Tag 5 — Trainer-Leitfaden (KI Lab)</title>
+<style>
+  @page { size: A4; margin: 16mm 15mm; }
+  * { box-sizing: border-box; }
+  html { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  body {
+    font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    color: #1f2430; line-height: 1.5; font-size: 10.6pt; margin: 0;
+  }
+  h1 { font-size: 21pt; margin: 0 0 2px; color: #4c1d95; letter-spacing: -.2px; }
+  .sub { color: #6b7280; font-size: 10pt; margin: 0 0 14px; }
+  h2 {
+    font-size: 12.5pt; color: #5b21b6; margin: 20px 0 7px;
+    padding-bottom: 4px; border-bottom: 2px solid #ede9fe;
+    display: flex; align-items: baseline; gap: 8px;
+  }
+  h2 .n {
+    background: #7c3aed; color: #fff; font-size: 9pt; font-weight: 700;
+    width: 20px; height: 20px; border-radius: 50%; display: inline-flex;
+    align-items: center; justify-content: center; flex: 0 0 auto;
+  }
+  h3 { font-size: 10.8pt; margin: 12px 0 4px; color: #374151; }
+  p { margin: 5px 0; }
+  ul, ol { margin: 5px 0 5px 0; padding-left: 20px; }
+  li { margin: 3px 0; }
+  code {
+    background: #f3f0ff; color: #5b21b6; padding: 1px 5px; border-radius: 4px;
+    font-family: "Cascadia Code", Consolas, monospace; font-size: 9.4pt;
+  }
+  pre {
+    background: #1e1b2e; color: #e9e4ff; padding: 9px 12px; border-radius: 7px;
+    font-family: "Cascadia Code", Consolas, monospace; font-size: 9pt;
+    overflow-x: auto; margin: 6px 0; white-space: pre-wrap; word-break: break-all;
+  }
+  .lead {
+    background: #faf5ff; border: 1px solid #e9d5ff; border-radius: 9px;
+    padding: 11px 14px; margin: 12px 0 4px;
+  }
+  .lead p { margin: 3px 0; }
+  .box {
+    border: 1px solid #e5e7eb; border-radius: 9px; padding: 10px 13px; margin: 8px 0;
+    background: #fcfcfd;
+  }
+  .warn {
+    background: #fff7ed; border: 1px solid #fed7aa; border-radius: 9px;
+    padding: 10px 13px; margin: 8px 0;
+  }
+  .warn strong { color: #c2410c; }
+  .tip { background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 9px; padding: 10px 13px; margin: 8px 0; }
+  .tip strong { color: #15803d; }
+  table { width: 100%; border-collapse: collapse; margin: 8px 0; font-size: 9.8pt; }
+  th, td { text-align: left; padding: 6px 9px; border-bottom: 1px solid #eceff3; vertical-align: top; }
+  th { background: #f5f3ff; color: #5b21b6; font-weight: 700; }
+  .time { color: #7c3aed; font-weight: 700; white-space: nowrap; }
+  .chk { list-style: none; padding-left: 0; }
+  .chk li { padding-left: 24px; position: relative; }
+  .chk li::before {
+    content: ""; position: absolute; left: 0; top: 2px; width: 13px; height: 13px;
+    border: 1.6px solid #a78bfa; border-radius: 3px;
+  }
+  .foot { margin-top: 22px; padding-top: 8px; border-top: 1px solid #ececec; color: #9ca3af; font-size: 8.8pt; }
+  .avoid-break { break-inside: avoid; }
+  strong.k { color: #4c1d95; }
+</style>
+</head>
+<body>
+
+<h1>Tag 5 – Finale · Trainer-Leitfaden</h1>
+<p class="sub">KI-Lab-Workshop „KI im Griff" · für Claudia &amp; Felix · Freitag</p>
+
+<div class="lead">
+  <p><strong>Worum geht's:</strong> Steven ist am Freitag nicht da – ihr beide übernimmt den letzten Tag.
+  Keine Sorge, Tag 5 ist der entspannteste: kein neuer Stoff. Die Kinder haben ihren eigenen KI-Bot
+  über die Woche gebaut; heute machen sie ihn <strong>fertig</strong>, stellen ihn <strong>vor</strong> und
+  ihr <strong>feiert</strong> zum Abschluss, was jede:r geschafft hat.</p>
+  <p style="margin-top:6px"><strong>Eure Rolle:</strong> herumgehen, helfen, moderieren, loben. Ihr müsst
+  nichts selbst programmieren – die KI (Gemini-CLI) hilft den Kindern beim Code, ihr helft beim Drumherum.</p>
+</div>
+
+<h2><span class="n">1</span> Vorher checken (10 Min vor Start)</h2>
+<ul class="chk">
+  <li><strong>API-Key parat?</strong> Den Gemini-Key hat Steven (oder er liegt am üblichen Ort / auf dem Zettel).
+      Ohne ihn antwortet keine KI. <em>Denselben</em> Key für App und Gemini-CLI.</li>
+  <li><strong>Laptops an</strong>, WLAN da, Docker Desktop offen (Wal-Symbol unten links muss ruhig/grün sein).</li>
+  <li><strong>Post-Its &amp; Stifte</strong> für die Galerie (Punkt 4) – je ~3 pro Kind, grün + gelb.</li>
+  <li><strong>Beamer/Bildschirm</strong> für die Präsentationen (Punkt 5).</li>
+  <li>Optional: <strong>USB-Stick</strong>, um am Ende die Projekte der Kinder zu sichern.</li>
+</ul>
+
+<h2><span class="n">2</span> Die KI-Lab-App starten</h2>
+<p>Die App ist das lila „KI Lab" im Browser mit den Aufgaben, dem Chat und dem Prompt Lab.
+Die meisten Kinder haben sie seit Tag 1 laufen – dann reicht <strong>Starten</strong>:</p>
+<pre>docker start ki-lab</pre>
+<p>Dann im Browser: <strong>http://localhost:3000</strong> → Name eingeben, fertig. Der Fortschritt der Woche ist noch da.</p>
+
+<div class="box avoid-break">
+  <h3 style="margin-top:0">Falls die App bei einem Kind noch nicht da ist (oder neu aufgesetzt werden muss):</h3>
+  <pre>docker pull ghcr.io/intsanerarity/ki-lab:latest
+docker run -d -p 3000:3000 --name ki-lab -e GEMINI_API_KEY=KEY-VON-STEVEN ghcr.io/intsanerarity/ki-lab:latest</pre>
+  <p style="margin:4px 0 0">Den Platzhalter <code>KEY-VON-STEVEN</code> durch den echten Key ersetzen. Danach ebenfalls
+  <strong>http://localhost:3000</strong> öffnen.</p>
+</div>
+
+<h3>Die Kinder-Projekte selbst (der eigene Bot)</h3>
+<p>Die laufen <em>getrennt</em> von der App: im entpackten <strong>Gemini-CLI-Bundle-Ordner</strong> (Doppelklick auf
+<code>KI-STARTEN.cmd</code>). Der eigene Bot-Server der Kinder läuft meist auf <strong>Port 3001</strong>
+(<code>http://localhost:3001</code>), die App auf 3000 – das ist Absicht, sie stören sich nicht.</p>
+
+<h2><span class="n">3</span> Der Tagesablauf (~4 Std)</h2>
+<table>
+  <tr><th style="width:78px">Zeit</th><th>Block</th><th>Was passiert</th></tr>
+  <tr>
+    <td class="time">~120 Min</td>
+    <td><strong>Freie Arbeitszeit</strong></td>
+    <td>Kinder stellen ihren Bot fertig. Ihr geht rum und helft. KI-Hilfe ist ausdrücklich erlaubt.
+        Prioritäten (von oben): 1) Bot antwortet zuverlässig · 2) keine offensichtlichen Bugs ·
+        3) sieht ordentlich aus · 4) README geschrieben · 5) Bonus-Extras.</td>
+  </tr>
+  <tr>
+    <td class="time">~30 Min</td>
+    <td><strong>Projekt-Galerie</strong></td>
+    <td>Laptops wie in einer Ausstellung aufstellen. Alle laufen rum, testen ≥2 fremde Projekte und
+        hinterlassen Post-Its (grün „cool ist…", gelb „ich würde noch gern…"). Danach: jede:r arbeitet
+        <strong>eine</strong> Rückmeldung ein. Achtet darauf, dass <strong>jedes</strong> Projekt Post-Its bekommt.</td>
+  </tr>
+  <tr>
+    <td class="time">~15 Min</td>
+    <td><strong>Präsentation vorbereiten</strong></td>
+    <td>Jede:r bereitet 3–5 Min vor (Struktur siehe Punkt 5). Nicht auswendig lernen – frei reden.</td>
+  </tr>
+  <tr>
+    <td class="time">~120 Min</td>
+    <td><strong>Präsentationen</strong></td>
+    <td>Reihum, Freiwillige zuerst. Nach jeder: 1 Frage aus der Gruppe + Applaus. Ihr moderiert und nennt
+        pro Kind <strong>1 echtes Lob + 1 freundlichen Tipp</strong>.</td>
+  </tr>
+  <tr>
+    <td class="time">~25 Min</td>
+    <td><strong>Abschluss</strong></td>
+    <td>Reflexion ohne KI + Ein-Satz-Runde + (falls vorhanden) Zertifikate. Siehe Punkt 6.</td>
+  </tr>
+</table>
+<p style="font-size:9.4pt;color:#6b7280">Zeiten sind Richtwerte – bei ~15 Kindern gut aufteilen. Lieber die
+Präsentationen straff halten, damit alle drankommen.</p>
+
+<h2><span class="n">4</span> Worauf ihr achten solltet</h2>
+<ul>
+  <li><strong>Positiv bleiben.</strong> Ein Bug ist kein Versagen, sondern Lernstoff – genau das ist die Botschaft der Woche.
+      Wenn ein Kind frustriert ist: gemeinsam draufschauen, die KI um Hilfe bitten lassen.</li>
+  <li><strong>Ihr müsst den Code nicht können.</strong> Wenn etwas klemmt, lasst das Kind die Gemini-CLI fragen
+      („Der Button macht nichts, finde den Fehler in index.html"). Ihr helft beim Formulieren, nicht beim Tippen.</li>
+  <li><strong>Jedes Kind soll präsentieren</strong> – auch kurz. Schüchterne ermutigen, niemanden zwingen.</li>
+  <li><strong>README nicht vergessen</strong> – gehört zu „fertig" dazu (Vorlage steht in der App bei Aufgabe t5-2).</li>
+</ul>
+
+<div class="warn avoid-break">
+  <strong>Häufige Stolpersteine – schnelle Lösung:</strong>
+  <table style="margin-top:4px">
+    <tr><th style="width:44%">Problem</th><th>Lösung</th></tr>
+    <tr><td>„Cannot connect to the Docker daemon"</td><td>Docker Desktop ist nicht offen → starten, warten bis der Wal grün ist.</td></tr>
+    <tr><td>http://localhost:3000 zeigt nichts</td><td><code>docker ps</code> prüfen; fehlt <code>ki-lab</code>, dann <code>docker start ki-lab</code>.</td></tr>
+    <tr><td>„name /ki-lab is already in use"</td><td>Nicht neu <code>run</code>en → <code>docker start ki-lab</code>.</td></tr>
+    <tr><td>Chat sagt „Trainer fragen" / kein Key</td><td>Key fehlt → <code>docker rm -f ki-lab</code> und mit korrektem <code>-e GEMINI_API_KEY=…</code> neu starten.</td></tr>
+    <tr><td>Bot-Seite sagt „Cannot GET /"</td><td>Kein Fehler! Der Server läuft, nur die nackte Adresse hat keine Seite. Echte Adresse mit <code>/api/…</code> aufrufen.</td></tr>
+    <tr><td>Bot-Seite erreicht Backend nicht</td><td>Läuft der eigene Server (Port 3001)? Terminal/CLI offen? Browser-Konsole (F12) zeigt den Fehler.</td></tr>
+  </table>
+</div>
+
+<h2><span class="n">5</span> Präsentations-Struktur (so leitet ihr an)</h2>
+<p>Jedes Kind zeigt in 3–5 Minuten:</p>
+<ol>
+  <li>Was ist dein Projekt? (1 Satz)</li>
+  <li>Live-Demo – im Browser vorführen</li>
+  <li>Welche KI steckt drin? Was ist dein System-Prompt?</li>
+  <li>Was war am schwierigsten?</li>
+  <li>Was würdest du als Nächstes hinzufügen?</li>
+</ol>
+<div class="tip"><strong>Tipp:</strong> Hakt die Live-Demo, ruhig bleiben und erklären, was passieren <em>sollte</em> –
+das gehört zum Programmieren dazu und wirkt souverän. Genau so vormachen, dann trauen sich die Kinder das auch.</div>
+
+<h2><span class="n">6</span> Abschluss (die letzten 25 Min)</h2>
+<h3>Reflexion – bewusst OHNE KI (10 Min)</h3>
+<p>In der Gruppe oder auf einem Zettel. Vier Fragen:</p>
+<ul>
+  <li>Was kann KI <strong>gut</strong>?</li>
+  <li>Was kann KI <strong>nicht</strong> gut?</li>
+  <li>Worauf muss ich <strong>aufpassen</strong>? (Halluzinationen, sensible Daten, Deepfakes)</li>
+  <li>Kann ich der KI <strong>vertrauen</strong> – und wann nicht?</li>
+</ul>
+<p>Das bündelt die Woche: KI ist ein starkes Werkzeug, aber die Verantwortung bleibt beim Menschen.</p>
+
+<h3>Ein-Satz-Runde</h3>
+<p>Reihum, jede:r einen Satz: <em>„Diese Woche hat mir gezeigt: ___"</em> · <em>„Ich nutze KI jetzt anders, weil: ___"</em>
+· <em>„Als Nächstes möchte ich lernen: ___"</em></p>
+<p>Dann: <strong>Zertifikate ausgeben</strong> (falls vorhanden) und Applaus für alle.</p>
+
+<h2><span class="n">7</span> Bevor ihr geht – Checkliste</h2>
+<ul class="chk">
+  <li>Alle Projekte gespeichert / auf USB-Stick kopiert?</li>
+  <li>Bei jedem Projekt eine README vorhanden?</li>
+  <li>Fotos gemacht (falls erlaubt)?</li>
+  <li><strong>Wichtig für Steven:</strong> ihm kurz Bescheid geben, dass der <strong>API-Key nach dem Workshop
+      rotiert</strong> werden muss (Sicherheit).</li>
+</ul>
+
+<div class="tip avoid-break">
+  <strong>Kurz gesagt:</strong> App starten (<code>docker start ki-lab</code> → localhost:3000), Kinder bauen fertig,
+  Galerie mit Post-Its, alle präsentieren, gemeinsam reflektieren, feiern. Ihr helft und moderiert –
+  die KI macht die Technik. Ihr schafft das locker. Danke euch beiden!
+</div>
+
+<p class="foot">Fragen vorab? An Steven. · KI-Lab-Workshop „KI im Griff" · Coding4Kids</p>
+
+</body>
+</html>
