@@ -144,7 +144,13 @@ node --version</pre></div>
     <p class="sub">Die App ist dein Cockpit: Aufgaben, KI-Chat, Prompt Lab, Token-Visualizer und Fehler-Log. Sie kommt als fertiger Container — nichts zu bauen.</p>
     <ol class="steps">
       <li>
-        <span class="step-title">App-Paket holen</span>
+        <span class="step-title">Alte App wegräumen <span class="cond">nur falls schon mal getestet</span></span>
+        <p>Hattest du die App früher schon offen? Erst weg damit, sonst startest du gleich versehentlich die <b>alte</b> Version:</p>
+        <div class="cmd"><div class="cmd-bar"><span class="where">PowerShell</span><button class="copy" type="button">Kopieren</button></div><pre>docker rm -f ki-lab</pre></div>
+        <div class="note check"><span class="ic">✓</span><span class="txt">Der Hinweis <code>No such container</code> ist völlig ok — dann war eh nichts da.</span></div>
+      </li>
+      <li>
+        <span class="step-title">App-Paket holen <span class="cond">immer die neueste Version</span></span>
         <div class="cmd"><div class="cmd-bar"><span class="where">PowerShell</span><button class="copy" type="button">Kopieren</button></div><pre>docker pull ghcr.io/intsanerarity/ki-lab:latest</pre></div>
         <div class="note check"><span class="ic">✓</span><span class="txt">Am Ende <code>Status: Downloaded newer image…</code> (oder <code>Image is up to date</code>).</span></div>
       </li>
@@ -164,6 +170,7 @@ node --version</pre></div>
         <p>Nach einem Neustart <b>nicht</b> nochmal <code>docker run</code> (Name schon vergeben), sondern:</p>
         <div class="cmd"><div class="cmd-bar"><span class="where">PowerShell</span><button class="copy" type="button">Kopieren</button></div><pre>docker start ki-lab</pre></div>
         <div class="note check"><span class="ic">✓</span><span class="txt">Dein Fortschritt bleibt erhalten. Danach wieder <code>http://localhost:3000</code>.</span></div>
+        <div class="note heads-up" style="margin-top:10px"><span class="ic">↻</span><span class="txt"><b>Achtung:</b> <code>docker start</code> nimmt die <b>vorhandene</b> Version. Gibt der Trainer eine <b>neue</b> Version durch, den 3-Schritt von oben wiederholen: <code>docker rm -f ki-lab</code> → <code>docker pull</code> → <code>docker run</code>.</span></div>
       </li>
     </ol>
   </section>
