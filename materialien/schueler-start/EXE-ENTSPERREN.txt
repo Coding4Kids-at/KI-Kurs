@@ -1,0 +1,26 @@
+Falls Windows die .exe blockiert (SmartScreen / "Herausgeber unbekannt")
+=======================================================================
+
+Die Datei KI-Workshop-Start.exe ist ein selbst-entpackendes, passwortgeschuetztes
+Paket. Weil sie aus dem Internet kommt, warnt Windows manchmal. So erlaubst du sie:
+
+WEG 1 — Rechtsklick (am einfachsten)
+  1. Rechtsklick auf  KI-Workshop-Start.exe  ->  Eigenschaften
+  2. Ganz unten im Reiter "Allgemein": Haekchen bei "Zulassen" (bzw. "Entsperren") setzen
+  3. OK  ->  jetzt Doppelklick auf die Datei
+
+WEG 2 — SmartScreen-Fenster
+  Erscheint "Der Computer wurde durch Windows geschuetzt":
+  1. Auf  "Weitere Informationen"  klicken
+  2. Auf  "Trotzdem ausfuehren"  klicken
+
+WEG 3 — PowerShell (falls erlaubt)
+  Unblock-File -Path .\KI-Workshop-Start.exe
+
+Nach dem Doppelklick:
+  - Zielordner waehlen (z.B. Desktop) und das Passwort vom Trainer eingeben.
+  - Es entsteht ein Ordner  KI-Workshop-Start  mit allem drin.
+  - Weiter geht es in  START-HIER-LIESMICH.txt
+
+Wenn gar nichts geht (stark gesperrte Laptops, AV blockt die .exe komplett):
+  -> Plan B: der Trainer kopiert den entpackten Ordner per USB-Stick auf den Laptop.
