@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Der Computer errät deine Zahl</title>
+<style>
+  :root { color-scheme: light dark; }
+  body { font-family: system-ui, sans-serif; margin: 0; background: #0f172a; color: #e2e8f0; text-align: center; }
+  .box { max-width: 460px; margin: 0 auto; padding: 20px; }
+  h1 { font-size: 1.4rem; }
+  #tipp { font-size: 3rem; font-weight: 800; margin: 16px 0 4px; color: #38bdf8; }
+  #frage { font-size: 1.1rem; min-height: 1.4em; }
+  .btns { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin: 14px 0; }
+  button { font-size: 1rem; padding: 10px 16px; border: 0; border-radius: 8px; font-weight: 700; cursor: pointer; }
+  #hoch { background: #f43f5e; color: #fff; }
+  #tief { background: #fb923c; color: #0f172a; }
+  #richtig { background: #4ade80; color: #0f172a; }
+  #neu { background: #38bdf8; color: #0f172a; }
+  #status { margin-top: 10px; font-variant-numeric: tabular-nums; }
+  #verlauf { margin-top: 10px; color: #94a3b8; font-size: .9rem; }
+</style>
+</head>
+<body>
+<div class="box">
+  <h1>Denk dir eine Zahl von 1 bis 100</h1>
+  <p>Verrate sie nicht! Der Computer errät sie — sag ihm nur, ob sein Tipp zu hoch oder zu tief ist.</p>
+  <div id="tipp">–</div>
+  <div id="frage">Bereit? Denk an deine Zahl und klick Start.</div>
+  <div class="btns">
+    <button id="hoch">Zu hoch</button>
+    <button id="tief">Zu tief</button>
+    <button id="richtig">Richtig!</button>
+  </div>
+  <div class="btns"><button id="neu">Start / Neu</button></div>
+  <div id="status"></div>
+  <div id="verlauf"></div>
+</div>
+
+<script>
+  let lo, hi, tipp, versuche, verlauf;
+  let tippEl = document.getElementById('tipp');
+  let frageEl = document.getElementById('frage');
+  let statusEl = document.getElementById('status');
+  let verlaufEl = document.getElementById('verlauf');
+  let hochBtn = document.getElementById('hoch');
+  let tiefBtn = document.getElementById('tief');
+  let richtigBtn = document.getElementById('richtig');
+
+  function raten() {
+    // Die Idee: immer die MITTE des noch möglichen Bereichs tippen (binäre Suche).
+    tipp = Math.floor((lo + hi) / 2);
+    versuche++;
+    tippEl.textContent = tipp;
+    frageEl.textContent = 'Ist deine Zahl ' + tipp + '?';
+    statusEl.textContent = 'Versuch ' + versuche + ' – möglicher Bereich: ' + lo + ' bis ' + hi;
+    verlaufEl.textContent = 'Tipps: ' + verlauf.join(', ');
+  }
+
+  function start() {
+    lo = 1; hi = 100; versuche = 0; verlauf = [];
+    setButtons(true);
+    raten();
+    verlauf.push(tipp);
+    verlaufEl.textContent = 'Tipps: ' + verlauf.join(', ');
+  }
+
+  function setButtons(an) { hochBtn.disabled = !an; tiefBtn.disabled = !an; richtigBtn.disabled = !an; }
+
+  hochBtn.addEventListener('click', () => { hi = tipp - 1; naechster(); });   // Tipp war zu hoch -> nur kleinere übrig
+  tiefBtn.addEventListener('click', () => { lo = tipp + 1; naechster(); });   // Tipp war zu tief -> nur größere übrig
+
+  function naechster() {
+    if (lo > hi) { frageEl.textContent = 'Hm – hast du dich irgendwo vertippt? Starte neu.'; setButtons(false); return; }
+    raten();
+    verlauf.push(tipp);
+    verlaufEl.textContent = 'Tipps: ' + verlauf.join(', ');
+  }
+
+  richtigBtn.addEventListener('click', () => {
+    frageEl.textContent = 'Erwischt! Deine Zahl war ' + tipp + '.';
+    statusEl.textContent = 'Gefunden in nur ' + versuche + ' Versuchen. (Mehr als 7 braucht der Computer nie!)';
+    setButtons(false);
+  });
+
+  document.getElementById('neu').addEventListener('click', start);
+  setButtons(false);
+</script>
+</body>
+</html>

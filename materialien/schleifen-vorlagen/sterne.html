@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Schleife: eine Zeile, hunderte Sterne</title>
+<style>
+  :root { color-scheme: light dark; }
+  body { font-family: system-ui, sans-serif; margin: 0; background: #0f172a; color: #e2e8f0; text-align: center; }
+  header { padding: 14px; }
+  h1 { margin: 0 0 4px; font-size: 1.4rem; }
+  .controls { display: flex; gap: 12px; justify-content: center; align-items: center; flex-wrap: wrap; padding: 8px; }
+  button { font-size: 1rem; padding: 8px 16px; border: 0; border-radius: 8px; background: #38bdf8; color: #0f172a; font-weight: 700; cursor: pointer; }
+  #zaehler { font-size: 1.1rem; font-variant-numeric: tabular-nums; }
+  #buehne { position: relative; height: 60vh; margin: 10px; background: #020617; border-radius: 12px; overflow: hidden; }
+  .stern { position: absolute; transform: translate(-50%, -50%); user-select: none; }
+</style>
+</head>
+<body>
+<header>
+  <h1>Eine Schleife malt Sterne</h1>
+  <div>Der Computer wiederholt dieselbe Anweisung ganz oft — das ist eine Schleife.</div>
+  <div class="controls">
+    <label>Anzahl: <span id="anzahlLabel">50</span>
+      <input id="anzahl" type="range" min="1" max="1000" value="50">
+    </label>
+    <button id="malen">Sterne malen</button>
+    <span id="zaehler"></span>
+  </div>
+</header>
+<div id="buehne"></div>
+
+<script>
+  let buehne = document.getElementById('buehne');
+  let anzahl = document.getElementById('anzahl');
+  let anzahlLabel = document.getElementById('anzahlLabel');
+  let zaehler = document.getElementById('zaehler');
+  let symbole = ['⭐', '✨', '🌟', '💫'];
+
+  function malen() {
+    buehne.innerHTML = '';
+    let n = Number(anzahl.value);
+    let b = buehne.clientWidth, h = buehne.clientHeight;
+    // DAS ist die Schleife: mache dasselbe n-mal.
+    for (let i = 1; i <= n; i++) {
+      let s = document.createElement('div');
+      s.className = 'stern';
+      s.textContent = symbole[Math.floor(Math.random() * symbole.length)];
+      s.style.left = Math.random() * b + 'px';
+      s.style.top = Math.random() * h + 'px';
+      s.style.fontSize = (10 + Math.random() * 30) + 'px';
+      buehne.appendChild(s);
+    }
+    zaehler.textContent = 'Die Schleife lief ' + n + '-mal.';
+  }
+
+  anzahl.addEventListener('input', () => { anzahlLabel.textContent = anzahl.value; });
+  document.getElementById('malen').addEventListener('click', malen);
+  malen();
+</script>
+</body>
+</html>

@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Der Game-Loop: eine Schleife, die nie aufhört</title>
+<style>
+  :root { color-scheme: light dark; }
+  body { font-family: system-ui, sans-serif; margin: 0; background: #0f172a; color: #e2e8f0; text-align: center; }
+  header { padding: 12px; }
+  h1 { margin: 0 0 4px; font-size: 1.3rem; }
+  .controls { display: flex; gap: 12px; justify-content: center; align-items: center; flex-wrap: wrap; padding: 6px; }
+  button { font-size: 1rem; padding: 8px 16px; border: 0; border-radius: 8px; background: #38bdf8; color: #0f172a; font-weight: 700; cursor: pointer; }
+  canvas { background: #020617; border-radius: 12px; margin: 8px; max-width: 96%; touch-action: none; }
+  #fps { font-variant-numeric: tabular-nums; }
+</style>
+</head>
+<body>
+<header>
+  <h1>Der Game-Loop</h1>
+  <div>Jedes Spiel ist eine Schleife, die viele Male pro Sekunde läuft: bewegen → zeichnen → wieder von vorn.</div>
+  <div class="controls">
+    <label>Bälle: <span id="anzahlLabel">15</span>
+      <input id="anzahl" type="range" min="1" max="200" value="15">
+    </label>
+    <button id="toggle">Pause</button>
+    <span id="fps"></span>
+  </div>
+</header>
+<canvas id="c" width="800" height="440"></canvas>
+
+<script>
+  let canvas = document.getElementById('c');
+  let ctx = canvas.getContext('2d');
+  let anzahl = document.getElementById('anzahl');
+  let anzahlLabel = document.getElementById('anzahlLabel');
+  let toggleBtn = document.getElementById('toggle');
+  let fpsEl = document.getElementById('fps');
+  let farben = ['#38bdf8', '#f43f5e', '#4ade80', '#facc15', '#a78bfa', '#fb923c'];
+  let baelle = [];
+  let laeuft = true;
+  let frames = 0, letzteZeit = 0, fps = 0;
+
+  function neuBaelle(n) {
+    baelle = [];
+    for (let i = 0; i < n; i++) {
+      baelle.push({
+        x: Math.random() * canvas.width, y: Math.random() * canvas.height,
+        vx: (Math.random() * 4 - 2) || 1.5, vy: (Math.random() * 4 - 2) || 1.5,
+        r: 6 + Math.random() * 16, farbe: farben[i % farben.length]
+      });
+    }
+  }
+
+  // DER GAME-LOOP: diese Funktion ruft sich selbst immer wieder auf (ca. 60x pro Sekunde).
+  function loop(zeit) {
+    if (laeuft) {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      for (let b of baelle) {
+        b.x += b.vx; b.y += b.vy;                                   // bewegen
+        if (b.x - b.r < 0 || b.x + b.r > canvas.width) { b.vx *= -1; }  // an der Wand abprallen
+        if (b.y - b.r < 0 || b.y + b.r > canvas.height) { b.vy *= -1; }
+        ctx.beginPath(); ctx.arc(b.x, b.y, b.r, 0, Math.PI * 2);   // zeichnen
+        ctx.fillStyle = b.farbe; ctx.fill();
+      }
+      frames++;
+      if (zeit - letzteZeit > 500) { fps = Math.round(frames * 1000 / (zeit - letzteZeit)); frames = 0; letzteZeit = zeit; fpsEl.textContent = fps + ' Bilder/Sekunde'; }
+    }
+    requestAnimationFrame(loop);   // <- hier ruft sich die Schleife selbst wieder auf
+  }
+
+  anzahl.addEventListener('input', () => { anzahlLabel.textContent = anzahl.value; neuBaelle(Number(anzahl.value)); });
+  toggleBtn.addEventListener('click', () => { laeuft = !laeuft; toggleBtn.textContent = laeuft ? 'Pause' : 'Weiter'; });
+
+  neuBaelle(Number(anzahl.value));
+  requestAnimationFrame(loop);
+</script>
+</body>
+</html>
