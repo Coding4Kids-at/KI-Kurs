@@ -84,7 +84,7 @@ mit drin → läuft ohne Vorinstallation): herunterladen, entpacken, Doppelklick
 
 Direkter Download (empfohlen):
 ```
-https://github.com/Coding4Kids-at/Docker-Kurs/releases/download/v1.3/gemini-ki-portable-mit-node.zip
+https://github.com/Coding4Kids-at/KI-Kurs/releases/download/v1.0/gemini-ki-portable-mit-node.zip
 ```
 
 Der API-Key wird beim ersten Start abgefragt (derselbe Trainer-Key wie für die App).

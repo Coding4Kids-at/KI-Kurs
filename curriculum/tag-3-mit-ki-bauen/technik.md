@@ -86,7 +86,7 @@ eure Webseite.
 
 **Vorbereitung (Trainer):** Das fertige Bundle verteilen (Node ist mit drin, keine Installation):
 `gemini-ki-portable-mit-node.zip` — Download:
-`https://github.com/Coding4Kids-at/Docker-Kurs/releases/download/v1.3/gemini-ki-portable-mit-node.zip`
+`https://github.com/Coding4Kids-at/KI-Kurs/releases/download/v1.0/gemini-ki-portable-mit-node.zip`
 
 **Schritt 3a — CLI starten:**
 Bundle **entpacken** (Rechtsklick → Alle extrahieren), dann Doppelklick auf `KI-STARTEN.cmd`
