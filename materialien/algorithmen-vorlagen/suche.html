@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Suche: der Reihe nach vs. clever halbieren</title>
+<style>
+  :root { color-scheme: light dark; }
+  body { font-family: system-ui, sans-serif; margin: 0; background: #0f172a; color: #e2e8f0; text-align: center; }
+  header { padding: 16px; }
+  h1 { margin: 0 0 4px; font-size: 1.4rem; }
+  .controls { display: flex; gap: 10px; justify-content: center; align-items: center; flex-wrap: wrap; padding: 8px; }
+  input { font-size: 1rem; padding: 6px; width: 80px; border-radius: 8px; border: 1px solid #475569; background: #1e293b; color: #e2e8f0; text-align: center; }
+  button { font-size: 1rem; padding: 8px 14px; border: 0; border-radius: 8px; font-weight: 700; cursor: pointer; }
+  button:disabled { opacity: .5; cursor: not-allowed; }
+  #linBtn { background: #fb923c; color: #0f172a; }
+  #binBtn { background: #38bdf8; color: #0f172a; }
+  #info { min-height: 1.4em; margin: 8px; font-size: 1.1rem; }
+  #grid { display: grid; grid-template-columns: repeat(10, 1fr); gap: 3px; max-width: 520px; margin: 12px auto; }
+  .zahl { padding: 6px 0; background: #1e293b; border-radius: 5px; font-variant-numeric: tabular-nums; font-size: .85rem; }
+  .zahl.check { background: #fb923c; color: #0f172a; }
+  .zahl.bereich { background: #334155; }
+  .zahl.treffer { background: #4ade80; color: #0f172a; font-weight: 700; }
+</style>
+</head>
+<body>
+<header>
+  <h1>Suche in einer sortierten Liste (1–100)</h1>
+  <div class="controls">
+    <label>Gesuchte Zahl: <input id="ziel" type="number" min="1" max="100" value="99"></label>
+    <button id="linBtn">Der Reihe nach (linear)</button>
+    <button id="binBtn">Clever halbieren (binär)</button>
+  </div>
+  <div id="info">Wähle eine Zahl und einen Such-Knopf.</div>
+</header>
+<div id="grid"></div>
+
+<script>
+  let grid = document.getElementById('grid');
+  let zellen = [];
+  for (let n = 1; n <= 100; n++) {
+    let d = document.createElement('div');
+    d.className = 'zahl'; d.textContent = n;
+    grid.appendChild(d); zellen.push(d);
+  }
+  let info = document.getElementById('info');
+  let zielEl = document.getElementById('ziel');
+  let linBtn = document.getElementById('linBtn');
+  let binBtn = document.getElementById('binBtn');
+  let laeuft = false;
+
+  function reset() {
+    for (let d of zellen) { d.className = 'zahl'; }
+  }
+  function zielZahl() {
+    let z = Math.round(Number(zielEl.value));
+    if (!(z >= 1 && z <= 100)) { return null; }
+    return z;
+  }
+  function sperre(an) {
+    laeuft = an; linBtn.disabled = an; binBtn.disabled = an;
+  }
+
+  // Lineare Suche: von vorne, eine Zahl nach der anderen
+  function linear() {
+    if (laeuft) { return; }
+    let ziel = zielZahl(); if (ziel === null) { info.textContent = 'Bitte eine Zahl von 1 bis 100 eingeben.'; return; }
+    reset(); sperre(true);
+    let i = 0, schritte = 0;
+    function schritt() {
+      if (i > 0) { zellen[i - 1].classList.remove('check'); }
+      schritte++;
+      zellen[i].classList.add('check');
+      info.textContent = 'Linear: Schritt ' + schritte + ' – prüfe ' + (i + 1);
+      if (i + 1 === ziel) {
+        zellen[i].classList.remove('check'); zellen[i].classList.add('treffer');
+        info.textContent = 'Linear gefunden nach ' + schritte + ' Schritten.';
+        sperre(false); return;
+      }
+      i++;
+      setTimeout(schritt, 40);
+    }
+    schritt();
+  }
+
+  // Binäre Suche: immer die Mitte prüfen und den halben Bereich wegwerfen
+  function binaer() {
+    if (laeuft) { return; }
+    let ziel = zielZahl(); if (ziel === null) { info.textContent = 'Bitte eine Zahl von 1 bis 100 eingeben.'; return; }
+    reset(); sperre(true);
+    let lo = 1, hi = 100, schritte = 0;
+    function schritt() {
+      reset();
+      for (let n = lo; n <= hi; n++) { zellen[n - 1].classList.add('bereich'); }   // aktueller Suchbereich
+      let mid = Math.floor((lo + hi) / 2);
+      schritte++;
+      zellen[mid - 1].classList.remove('bereich'); zellen[mid - 1].classList.add('check');
+      info.textContent = 'Binär: Schritt ' + schritte + ' – prüfe Mitte ' + mid;
+      if (mid === ziel) {
+        zellen[mid - 1].classList.remove('check'); zellen[mid - 1].classList.add('treffer');
+        info.textContent = 'Binär gefunden nach ' + schritte + ' Schritten.';
+        sperre(false); return;
+      }
+      if (ziel < mid) { hi = mid - 1; } else { lo = mid + 1; }
+      if (lo > hi) { info.textContent = 'Nicht gefunden.'; sperre(false); return; }
+      setTimeout(schritt, 500);
+    }
+    schritt();
+  }
+
+  linBtn.addEventListener('click', linear);
+  binBtn.addEventListener('click', binaer);
+</script>
+</body>
+</html>

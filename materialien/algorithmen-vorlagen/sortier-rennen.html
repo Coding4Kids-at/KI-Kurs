@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sortier-Rennen: Bubble-Sort vs. Quicksort</title>
+<style>
+  :root { color-scheme: light dark; }
+  body { font-family: system-ui, sans-serif; margin: 0; background: #0f172a; color: #e2e8f0; }
+  header { padding: 16px; text-align: center; }
+  h1 { margin: 0 0 4px; font-size: 1.4rem; }
+  .controls { display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; align-items: center; padding: 8px; }
+  button { font-size: 1rem; padding: 8px 16px; border: 0; border-radius: 8px; background: #38bdf8; color: #0f172a; font-weight: 700; cursor: pointer; }
+  button:disabled { opacity: .5; cursor: not-allowed; }
+  .arena { display: flex; gap: 16px; padding: 16px; }
+  .panel { flex: 1; min-width: 0; background: #1e293b; border-radius: 12px; padding: 12px; }
+  .panel h2 { margin: 0 0 6px; font-size: 1.1rem; text-align: center; }
+  .zaehler { text-align: center; font-variant-numeric: tabular-nums; margin-bottom: 8px; font-size: 1rem; }
+  .bars { display: flex; align-items: flex-end; gap: 1px; height: 320px; }
+  .bar { flex: 1; background: #38bdf8; border-radius: 2px 2px 0 0; }
+  .bar.cmp { background: #f43f5e; }
+  .fertig { color: #4ade80; font-weight: 700; }
+  .gewinner { outline: 3px solid #4ade80; }
+</style>
+</head>
+<body>
+<header>
+  <h1>Sortier-Rennen</h1>
+  <div>Zwei Wege, dasselbe Ziel: welcher Algorithmus ist schneller?</div>
+  <div class="controls">
+    <label>Balken: <span id="anzahlLabel">30</span>
+      <input id="anzahl" type="range" min="10" max="200" value="30">
+    </label>
+    <button id="mischen">Neu mischen</button>
+    <button id="start">Start</button>
+  </div>
+</header>
+<div class="arena">
+  <div class="panel" id="panelL">
+    <h2>Bubble-Sort</h2>
+    <div class="zaehler">Vergleiche: <b id="cmpL">0</b> <span id="doneL"></span></div>
+    <div class="bars" id="barsL"></div>
+  </div>
+  <div class="panel" id="panelR">
+    <h2>Quicksort</h2>
+    <div class="zaehler">Vergleiche: <b id="cmpR">0</b> <span id="doneR"></span></div>
+    <div class="bars" id="barsR"></div>
+  </div>
+</div>
+
+<script>
+  // --- Die zwei Algorithmen als Generatoren: sie halten bei jedem Vergleich kurz an ---
+  // So koennen wir Schritt fuer Schritt zusehen UND die Vergleiche zaehlen.
+
+  function* bubbleSort(a) {
+    let n = a.length, vergleiche = 0;
+    for (let i = 0; i < n - 1; i++) {
+      for (let j = 0; j < n - 1 - i; j++) {
+        vergleiche++;
+        yield { i: j, j: j + 1, vergleiche };       // hier vergleicht der Algorithmus zwei Nachbarn
+        if (a[j] > a[j + 1]) { let t = a[j]; a[j] = a[j + 1]; a[j + 1] = t; }
+      }
+    }
+    return vergleiche;
+  }
+
+  function* quickSort(a, lo = 0, hi = a.length - 1, s = { vergleiche: 0 }) {
+    if (lo < hi) {
+      let pivot = a[hi], i = lo - 1;
+      for (let j = lo; j < hi; j++) {
+        s.vergleiche++;
+        yield { i: j, j: hi, vergleiche: s.vergleiche };
+        if (a[j] < pivot) { i++; let t = a[i]; a[i] = a[j]; a[j] = t; }
+      }
+      let t = a[i + 1]; a[i + 1] = a[hi]; a[hi] = t;
+      let p = i + 1;
+      yield* quickSort(a, lo, p - 1, s);
+      yield* quickSort(a, p + 1, hi, s);
+    }
+    return s.vergleiche;
+  }
+
+  let anzahl = document.getElementById('anzahl');
+  let anzahlLabel = document.getElementById('anzahlLabel');
+  let startBtn = document.getElementById('start');
+  let mischenBtn = document.getElementById('mischen');
+  let barsL = document.getElementById('barsL'), barsR = document.getElementById('barsR');
+  let cmpL = document.getElementById('cmpL'), cmpR = document.getElementById('cmpR');
+  let doneL = document.getElementById('doneL'), doneR = document.getElementById('doneR');
+  let panelL = document.getElementById('panelL'), panelR = document.getElementById('panelR');
+
+  let basis = [];        // die gemischte Start-Reihenfolge (fuer beide gleich)
+  let laeuft = false;
+
+  function mischen() {
+    let n = Number(anzahl.value);
+    basis = [];
+    for (let k = 0; k < n; k++) { basis.push(1 + Math.floor(Math.random() * 100)); }
+    zeichne(barsL, basis, -1, -1);
+    zeichne(barsR, basis, -1, -1);
+    cmpL.textContent = '0'; cmpR.textContent = '0';
+    doneL.textContent = ''; doneR.textContent = '';
+    panelL.classList.remove('gewinner'); panelR.classList.remove('gewinner');
+  }
+
+  function zeichne(container, arr, hi1, hi2) {
+    container.innerHTML = '';
+    for (let k = 0; k < arr.length; k++) {
+      let b = document.createElement('div');
+      b.className = 'bar' + (k === hi1 || k === hi2 ? ' cmp' : '');
+      b.style.height = arr[k] + '%';
+      container.appendChild(b);
+    }
+  }
+
+  function start() {
+    if (laeuft) { return; }
+    laeuft = true; startBtn.disabled = true; mischenBtn.disabled = true;
+
+    let arrL = basis.slice(), arrR = basis.slice();
+    let genL = bubbleSort(arrL), genR = quickSort(arrR);
+    let fertigL = false, fertigR = false, platz = 0;
+    let hlL = [-1, -1], hlR = [-1, -1];
+    let n = basis.length;
+    let schritteProBild = Math.max(1, Math.round(n / 6));   // groessere Listen: mehr Schritte pro Bild
+
+    function bild() {
+      for (let s = 0; s < schritteProBild; s++) {
+        if (!fertigL) {
+          let r = genL.next();
+          if (r.done) { fertigL = true; doneL.textContent = '(Platz ' + (++platz) + ' – fertig)'; doneL.className = 'fertig'; if (platz === 1) { panelL.classList.add('gewinner'); } }
+          else { cmpL.textContent = r.value.vergleiche; hlL = [r.value.i, r.value.j]; }
+        }
+        if (!fertigR) {
+          let r = genR.next();
+          if (r.done) { fertigR = true; doneR.textContent = '(Platz ' + (++platz) + ' – fertig)'; doneR.className = 'fertig'; if (platz === 1) { panelR.classList.add('gewinner'); } }
+          else { cmpR.textContent = r.value.vergleiche; hlR = [r.value.i, r.value.j]; }
+        }
+      }
+      zeichne(barsL, arrL, fertigL ? -1 : hlL[0], fertigL ? -1 : hlL[1]);
+      zeichne(barsR, arrR, fertigR ? -1 : hlR[0], fertigR ? -1 : hlR[1]);
+      if (!fertigL || !fertigR) { requestAnimationFrame(bild); }
+      else { laeuft = false; startBtn.disabled = false; mischenBtn.disabled = false; }
+    }
+    requestAnimationFrame(bild);
+  }
+
+  anzahl.addEventListener('input', () => { anzahlLabel.textContent = anzahl.value; if (!laeuft) { mischen(); } });
+  mischenBtn.addEventListener('click', () => { if (!laeuft) { mischen(); } });
+  startBtn.addEventListener('click', start);
+
+  mischen();   // beim Laden gleich eine Startanordnung zeigen
+</script>
+</body>
+</html>

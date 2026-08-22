@@ -1,0 +1,173 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Labyrinth-Löser (Breitensuche)</title>
+<style>
+  :root { color-scheme: light dark; }
+  body { font-family: system-ui, sans-serif; margin: 0; background: #0f172a; color: #e2e8f0; text-align: center; }
+  header { padding: 16px; }
+  h1 { margin: 0 0 4px; font-size: 1.4rem; }
+  .controls { display: flex; gap: 12px; justify-content: center; align-items: center; flex-wrap: wrap; padding: 8px; }
+  button { font-size: 1rem; padding: 8px 16px; border: 0; border-radius: 8px; background: #38bdf8; color: #0f172a; font-weight: 700; cursor: pointer; }
+  button:disabled { opacity: .5; cursor: not-allowed; }
+  #info { min-height: 1.4em; margin-top: 6px; }
+  #grid { display: grid; gap: 0; justify-content: center; margin: 12px auto; }
+  .zelle { width: 22px; height: 22px; box-sizing: border-box; background: #1e293b; }
+  .zelle.top { border-top: 2px solid #64748b; }
+  .zelle.right { border-right: 2px solid #64748b; }
+  .zelle.bottom { border-bottom: 2px solid #64748b; }
+  .zelle.left { border-left: 2px solid #64748b; }
+  .zelle.besucht { background: #0e7490; }
+  .zelle.weg { background: #facc15; }
+  .zelle.start { background: #4ade80; }
+  .zelle.ziel { background: #f43f5e; }
+</style>
+</head>
+<body>
+<header>
+  <h1>Labyrinth-Löser</h1>
+  <div>Die Suche breitet sich aus wie Wasser und findet den kürzesten Weg.</div>
+  <div class="controls">
+    <button id="neu">Neues Labyrinth</button>
+    <button id="loesen">Lösen</button>
+  </div>
+  <div id="info"></div>
+</header>
+<div id="grid"></div>
+
+<script>
+  let R = 15, C = 15;         // Zeilen und Spalten
+  let zellen = [];            // zellen[r][c] = { top,right,bottom,left }  (Wand vorhanden = true)
+  let divs = [];              // die zugehoerigen HTML-Elemente
+  let laeuft = false;
+
+  let grid = document.getElementById('grid');
+  let infoEl = document.getElementById('info');
+  let neuBtn = document.getElementById('neu');
+  let loesenBtn = document.getElementById('loesen');
+
+  function baueLabyrinth() {
+    // 1. Alle Waende setzen
+    zellen = [];
+    for (let r = 0; r < R; r++) {
+      let reihe = [];
+      for (let c = 0; c < C; c++) { reihe.push({ top: true, right: true, bottom: true, left: true, gen: false }); }
+      zellen.push(reihe);
+    }
+    // 2. Gaenge aushöhlen (Tiefensuche mit Stapel = Recursive Backtracker)
+    let stapel = [[0, 0]];
+    zellen[0][0].gen = true;
+    while (stapel.length) {
+      let [r, c] = stapel[stapel.length - 1];
+      let nachbarn = [];
+      if (r > 0 && !zellen[r - 1][c].gen) { nachbarn.push(['top', r - 1, c]); }
+      if (c < C - 1 && !zellen[r][c + 1].gen) { nachbarn.push(['right', r, c + 1]); }
+      if (r < R - 1 && !zellen[r + 1][c].gen) { nachbarn.push(['bottom', r + 1, c]); }
+      if (c > 0 && !zellen[r][c - 1].gen) { nachbarn.push(['left', r, c - 1]); }
+      if (nachbarn.length === 0) { stapel.pop(); continue; }
+      let [richtung, nr, nc] = nachbarn[Math.floor(Math.random() * nachbarn.length)];
+      // Wand zwischen aktueller Zelle und Nachbar entfernen (auf beiden Seiten)
+      if (richtung === 'top') { zellen[r][c].top = false; zellen[nr][nc].bottom = false; }
+      if (richtung === 'right') { zellen[r][c].right = false; zellen[nr][nc].left = false; }
+      if (richtung === 'bottom') { zellen[r][c].bottom = false; zellen[nr][nc].top = false; }
+      if (richtung === 'left') { zellen[r][c].left = false; zellen[nr][nc].right = false; }
+      zellen[nr][nc].gen = true;
+      stapel.push([nr, nc]);
+    }
+    zeichne();
+  }
+
+  function zeichne() {
+    grid.style.gridTemplateColumns = 'repeat(' + C + ', 22px)';
+    grid.innerHTML = '';
+    divs = [];
+    for (let r = 0; r < R; r++) {
+      let reihe = [];
+      for (let c = 0; c < C; c++) {
+        let z = zellen[r][c];
+        let d = document.createElement('div');
+        d.className = 'zelle' + (z.top ? ' top' : '') + (z.right ? ' right' : '') + (z.bottom ? ' bottom' : '') + (z.left ? ' left' : '');
+        reihe.push(d);
+        grid.appendChild(d);
+      }
+      divs.push(reihe);
+    }
+    divs[0][0].classList.add('start');
+    divs[R - 1][C - 1].classList.add('ziel');
+    infoEl.textContent = '';
+  }
+
+  function loesen() {
+    if (laeuft) { return; }
+    laeuft = true; loesenBtn.disabled = true; neuBtn.disabled = true;
+
+    // Breitensuche (BFS) von (0,0) zum Ziel (R-1,C-1)
+    let vorgaenger = {};                 // merkt sich, woher man in eine Zelle kam (fuer den Rueckweg)
+    let besucht = new Set(['0,0']);
+    let queue = [[0, 0]];
+    let reihenfolge = [];                // in welcher Reihenfolge Zellen entdeckt werden (fuer die Animation)
+
+    while (queue.length) {
+      let [r, c] = queue.shift();
+      reihenfolge.push([r, c]);
+      if (r === R - 1 && c === C - 1) { break; }
+      let z = zellen[r][c];
+      let kandidaten = [];
+      if (!z.top) { kandidaten.push([r - 1, c]); }
+      if (!z.right) { kandidaten.push([r, c + 1]); }
+      if (!z.bottom) { kandidaten.push([r + 1, c]); }
+      if (!z.left) { kandidaten.push([r, c - 1]); }
+      for (let [nr, nc] of kandidaten) {
+        let key = nr + ',' + nc;
+        if (!besucht.has(key)) { besucht.add(key); vorgaenger[key] = [r, c]; queue.push([nr, nc]); }
+      }
+    }
+
+    // Animation: nach und nach die entdeckten Felder einfaerben, dann den Weg zeigen
+    let idx = 0;
+    function bild() {
+      for (let s = 0; s < 6 && idx < reihenfolge.length; s++, idx++) {
+        let [r, c] = reihenfolge[idx];
+        if (!(r === 0 && c === 0) && !(r === R - 1 && c === C - 1)) { divs[r][c].classList.add('besucht'); }
+      }
+      if (idx < reihenfolge.length) { requestAnimationFrame(bild); }
+      else { zeigeWeg(vorgaenger); }
+    }
+
+    function zeigeWeg(vorgaenger) {
+      // Kuerzesten Weg vom Ziel zurueck zum Start rekonstruieren
+      let weg = [];
+      let key = (R - 1) + ',' + (C - 1);
+      if (key !== '0,0' && !vorgaenger[key]) { infoEl.textContent = 'Kein Weg gefunden!'; ende(); return; }
+      let cur = [R - 1, C - 1];
+      while (cur) {
+        weg.push(cur);
+        if (cur[0] === 0 && cur[1] === 0) { break; }
+        cur = vorgaenger[cur[0] + ',' + cur[1]];
+      }
+      weg.reverse();
+      let i = 0;
+      function wegBild() {
+        for (let s = 0; s < 3 && i < weg.length; s++, i++) {
+          let [r, c] = weg[i];
+          if (!(r === 0 && c === 0) && !(r === R - 1 && c === C - 1)) { divs[r][c].classList.remove('besucht'); divs[r][c].classList.add('weg'); }
+        }
+        if (i < weg.length) { requestAnimationFrame(wegBild); }
+        else { infoEl.textContent = 'Kürzester Weg: ' + weg.length + ' Felder.'; ende(); }
+      }
+      wegBild();
+    }
+
+    function ende() { laeuft = false; loesenBtn.disabled = false; neuBtn.disabled = false; }
+    requestAnimationFrame(bild);
+  }
+
+  neuBtn.addEventListener('click', () => { if (!laeuft) { baueLabyrinth(); } });
+  loesenBtn.addEventListener('click', loesen);
+
+  baueLabyrinth();
+</script>
+</body>
+</html>
