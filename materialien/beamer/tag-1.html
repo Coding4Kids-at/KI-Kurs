@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Beamer Tag 1 — KI verstehen</title>
+<style>
+  :root { --bg:#0f172a; --card:#1e293b; --fg:#e2e8f0; --mut:#94a3b8; --ak:#38bdf8; --gr:#4ade80; --rot:#f43f5e; --ge:#facc15; }
+  * { box-sizing: border-box; }
+  html,body { margin:0; height:100%; background:var(--bg); color:var(--fg); font-family:system-ui,sans-serif; overflow:hidden; }
+  .slide { position:absolute; inset:0; display:none; flex-direction:column; justify-content:center; align-items:center; padding:4vh 6vw; text-align:center; }
+  .slide.aktiv { display:flex; }
+  h1 { font-size:6vw; margin:0 0 2vh; line-height:1.05; }
+  h2 { font-size:4vw; margin:0 0 3vh; color:var(--ak); }
+  p, li { font-size:2.6vw; line-height:1.4; margin:.6vh 0; }
+  .klein { font-size:2vw; color:var(--mut); }
+  .karte { background:var(--card); border-radius:1.5vw; padding:3vh 4vw; max-width:80vw; }
+  ul { text-align:left; }
+  .badge { display:inline-block; background:var(--ak); color:var(--bg); font-weight:800; padding:.6vh 2vw; border-radius:999px; font-size:2vw; margin-bottom:2vh; }
+  table { border-collapse:collapse; font-size:2.4vw; }
+  td { border:1px solid #334155; padding:1.2vh 2vw; text-align:left; }
+  .rot { color:var(--rot); } .gr { color:var(--gr); } .ge { color:var(--ge); }
+  .fuss { position:fixed; bottom:2vh; width:100%; text-align:center; color:var(--mut); font-size:1.6vw; }
+  .pfeil { position:fixed; top:0; height:100%; width:12vw; cursor:pointer; }
+  #vor { right:0; } #zurueck { left:0; }
+  svg { max-width:82vw; height:auto; }
+  .flow { display:flex; align-items:center; gap:2vw; flex-wrap:wrap; justify-content:center; font-size:2.2vw; }
+  .box { background:var(--card); border:2px solid var(--ak); border-radius:1vw; padding:2vh 2vw; }
+</style>
+</head>
+<body>
+
+<!-- 1 Titel -->
+<section class="slide aktiv">
+  <div class="badge">Tag 1</div>
+  <h1>KI verstehen</h1>
+  <p class="klein">Was steckt wirklich hinter ChatGPT & Co.?</p>
+</section>
+
+<!-- 2 Autokorrektur -->
+<section class="slide">
+  <h2>KI = eine riesige Autokorrektur</h2>
+  <svg viewBox="0 0 640 260" role="img" aria-label="Handy-Tastatur schlägt Wörter vor">
+    <rect x="60" y="20" width="520" height="90" rx="12" fill="#1e293b" stroke="#334155"/>
+    <text x="80" y="75" fill="#e2e8f0" font-size="30">Ich esse gerne ___</text>
+    <g font-size="26" font-weight="700">
+      <rect x="80" y="140" width="150" height="60" rx="10" fill="#0e7490"/><text x="120" y="178" fill="#fff">Pizza</text>
+      <rect x="250" y="140" width="150" height="60" rx="10" fill="#1e293b" stroke="#334155"/><text x="285" y="178" fill="#e2e8f0">Kuchen</text>
+      <rect x="420" y="140" width="150" height="60" rx="10" fill="#1e293b" stroke="#334155"/><text x="455" y="178" fill="#e2e8f0">Sushi</text>
+    </g>
+  </svg>
+  <p>Das Handy hat gelernt, welche Wörter oft zusammen vorkommen.<br>Ein LLM macht dasselbe — trainiert auf unfassbar vielen Texten.</p>
+</section>
+
+<!-- 3 Token-Pipeline -->
+<section class="slide">
+  <h2>Wie die KI Text verarbeitet</h2>
+  <div class="flow">
+    <div class="box">Text</div><span>→</span>
+    <div class="box">Tokens</div><span>→</span>
+    <div class="box">Wahrschein&shy;lichkeiten</div><span>→</span>
+    <div class="box">nächstes Token</div>
+  </div>
+  <p class="klein" style="margin-top:3vh">Ein Token = ein Baustein, kleiner als ein Wort, größer als ein Buchstabe.<br>„Hund" = 1 Token · „Kindergarten" = 2–3 Tokens · Leerzeichen = eigenes Token.</p>
+</section>
+
+<!-- 4 Wahrscheinlichkeiten -->
+<section class="slide">
+  <h2>KI weiß nichts — sie rechnet Wahrscheinlichkeiten</h2>
+  <p>„Die Hauptstadt von Österreich ist ___"</p>
+  <svg viewBox="0 0 640 240" role="img" aria-label="Wahrscheinlichkeiten für das nächste Wort">
+    <g font-size="24" fill="#e2e8f0">
+      <text x="20" y="45">Wien</text><rect x="150" y="24" width="440" height="30" fill="#38bdf8"/><text x="600" y="45">97%</text>
+      <text x="20" y="105">Linz</text><rect x="150" y="84" width="30" height="30" fill="#64748b"/><text x="195" y="105">1%</text>
+      <text x="20" y="165">Salzburg</text><rect x="150" y="144" width="18" height="30" fill="#64748b"/><text x="180" y="165">0,5%</text>
+      <text x="20" y="225" class="rot" fill="#f43f5e">„weiß nicht"</text><rect x="150" y="204" width="10" height="30" fill="#f43f5e"/><text x="172" y="225" fill="#f43f5e">selten</text>
+    </g>
+  </svg>
+  <p class="klein">Bei unbekannten Fragen rät die KI lieber überzeugend, als „weiß nicht" zu sagen.</p>
+</section>
+
+<!-- 5 Mythos/Wahrheit -->
+<section class="slide">
+  <h2>Was KI <span class="rot">nicht</span> ist</h2>
+  <div class="karte">
+  <table>
+    <tr><td>„KI googelt Antworten"</td><td class="gr">Nein — kein Internet (meist)</td></tr>
+    <tr><td>„KI denkt wie wir"</td><td class="gr">Nein — Wahrscheinlichkeiten</td></tr>
+    <tr><td>„KI weiß alles"</td><td class="gr">Nein — nur was im Training war</td></tr>
+    <tr><td>„KI lügt absichtlich"</td><td class="gr">Nein — sie halluziniert (rät falsch)</td></tr>
+  </table>
+  </div>
+</section>
+
+<!-- 6 Aktivität -->
+<section class="slide">
+  <div class="badge">Raum-Aktivität</div>
+  <h2>„Ich bin ein LLM!"</h2>
+  <div class="karte"><ul>
+    <li>Team A schreibt 10 Satzanfänge (z.B. „Die beste Pizza hat…")</li>
+    <li>Team B sieht nur die ersten 3 Wörter und rät das Ende</li>
+    <li>Team C wertet aus: stimmte die Vorhersage?</li>
+  </ul></div>
+  <p class="klein">→ Genau das macht die KI — nur mit Milliarden Beispielen.</p>
+</section>
+
+<!-- 7 App -->
+<section class="slide">
+  <div class="badge">Heute in der KI-Lab-App</div>
+  <h2>Was ihr gleich macht</h2>
+  <div class="karte"><ul>
+    <li>Erste KI-Frage im Chat stellen</li>
+    <li>Token-Visualizer: Wörter zählen vs. Tokens zählen</li>
+    <li>Kontext-Experiment: dieselbe Frage, andere Rolle</li>
+    <li>Teachable Machine: der KI mit der Webcam etwas beibringen</li>
+    <li class="klein">+ Bonus-Aufgaben für alle, die schneller sind</li>
+  </ul></div>
+</section>
+
+<div class="pfeil" id="zurueck"></div>
+<div class="pfeil" id="vor"></div>
+<div class="fuss"><span id="nr">1</span> / <span id="ges">7</span> &nbsp;·&nbsp; ← → blättern &nbsp;·&nbsp; F11 = Vollbild</div>
+
+<script>
+  let slides = [...document.querySelectorAll('.slide')];
+  let i = 0;
+  document.getElementById('ges').textContent = slides.length;
+  function zeige(n) {
+    i = Math.max(0, Math.min(slides.length - 1, n));
+    slides.forEach((s, k) => s.classList.toggle('aktiv', k === i));
+    document.getElementById('nr').textContent = i + 1;
+  }
+  function vor() { zeige(i + 1); }
+  function zurueck() { zeige(i - 1); }
+  document.addEventListener('keydown', e => {
+    if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'PageDown') { vor(); }
+    if (e.key === 'ArrowLeft' || e.key === 'PageUp') { zurueck(); }
+  });
+  document.getElementById('vor').addEventListener('click', vor);
+  document.getElementById('zurueck').addEventListener('click', zurueck);
+  zeige(0);
+</script>
+</body>
+</html>

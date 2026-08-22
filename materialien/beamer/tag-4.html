@@ -1,0 +1,196 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Beamer Tag 4 — Algorithmen & Daten</title>
+<style>
+  :root { --bg:#0f172a; --card:#1e293b; --fg:#e2e8f0; --mut:#94a3b8; --ak:#38bdf8; --gr:#4ade80; --rot:#f43f5e; --ge:#facc15; }
+  * { box-sizing: border-box; }
+  html,body { margin:0; height:100%; background:var(--bg); color:var(--fg); font-family:system-ui,sans-serif; overflow:hidden; }
+  .slide { position:absolute; inset:0; display:none; flex-direction:column; justify-content:center; align-items:center; padding:4vh 6vw; text-align:center; }
+  .slide.aktiv { display:flex; }
+  h1 { font-size:6vw; margin:0 0 2vh; line-height:1.05; }
+  h2 { font-size:4vw; margin:0 0 3vh; color:var(--ak); }
+  p, li { font-size:2.6vw; line-height:1.4; margin:.6vh 0; }
+  .klein { font-size:2vw; color:var(--mut); }
+  .karte { background:var(--card); border-radius:1.5vw; padding:3vh 4vw; max-width:80vw; }
+  ul { text-align:left; }
+  .badge { display:inline-block; background:var(--ak); color:var(--bg); font-weight:800; padding:.6vh 2vw; border-radius:999px; font-size:2vw; margin-bottom:2vh; }
+  table { border-collapse:collapse; font-size:2.4vw; }
+  td { border:1px solid #334155; padding:1.2vh 2vw; text-align:left; }
+  .rot { color:var(--rot); } .gr { color:var(--gr); } .ge { color:var(--ge); }
+  .fuss { position:fixed; bottom:2vh; width:100%; text-align:center; color:var(--mut); font-size:1.6vw; }
+  .pfeil { position:fixed; top:0; height:100%; width:12vw; cursor:pointer; }
+  #vor { right:0; } #zurueck { left:0; }
+  svg { max-width:82vw; height:auto; }
+  .flow { display:flex; align-items:center; gap:2vw; flex-wrap:wrap; justify-content:center; font-size:2.2vw; }
+  .box { background:var(--card); border:2px solid var(--ak); border-radius:1vw; padding:2vh 2vw; }
+</style>
+</head>
+<body>
+
+<!-- 1 Titel -->
+<section class="slide aktiv">
+  <div class="badge">Tag 4</div>
+  <h1>Algorithmen & Daten</h1>
+  <p class="klein">Wie der Computer denkt — und wie Software tickt</p>
+</section>
+
+<!-- 2 Was ist ein Algorithmus -->
+<section class="slide">
+  <h2>Was ist ein Algorithmus?</h2>
+  <svg viewBox="0 0 640 260" role="img" aria-label="Zwei verschiedene Wege zum selben Ziel">
+    <circle cx="60" cy="130" r="26" fill="#1e293b" stroke="#38bdf8" stroke-width="3"/>
+    <text x="60" y="136" fill="#e2e8f0" font-size="20" text-anchor="middle">Start</text>
+    <circle cx="580" cy="130" r="26" fill="#1e293b" stroke="#4ade80" stroke-width="3"/>
+    <text x="580" y="136" fill="#e2e8f0" font-size="20" text-anchor="middle">Ziel</text>
+    <path d="M86,120 C260,20 380,20 554,120" fill="none" stroke="#38bdf8" stroke-width="4" marker-end="url(#pf1)"/>
+    <path d="M86,140 C260,240 380,240 554,140" fill="none" stroke="#facc15" stroke-width="4" marker-end="url(#pf2)"/>
+    <text x="320" y="55" fill="#38bdf8" font-size="22" text-anchor="middle">Weg A (kurz &amp; knifflig)</text>
+    <text x="320" y="225" fill="#facc15" font-size="22" text-anchor="middle">Weg B (länger, dafür einfach)</text>
+    <defs>
+      <marker id="pf1" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#38bdf8"/></marker>
+      <marker id="pf2" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#facc15"/></marker>
+    </defs>
+  </svg>
+  <p>Ein Algorithmus ist eine Schritt-für-Schritt-Anleitung — wie ein Rezept.<br>Für dasselbe Problem gibt es oft mehrere Wege, die zum gleichen Ziel führen.</p>
+</section>
+
+<!-- 3 Sortier-Rennen -->
+<section class="slide">
+  <h2>Sortier-Rennen: Bubble-Sort vs. Quicksort</h2>
+  <svg viewBox="0 0 640 240" role="img" aria-label="Zwei Spalten mit unterschiedlich hohen Balken, gleiches Ergebnis sortiert">
+    <g>
+      <text x="150" y="24" fill="#f43f5e" font-size="22" text-anchor="middle">Bubble-Sort</text>
+      <rect x="70" y="200" width="24" height="20" fill="#f43f5e"/>
+      <rect x="104" y="170" width="24" height="50" fill="#f43f5e"/>
+      <rect x="138" y="130" width="24" height="90" fill="#f43f5e"/>
+      <rect x="172" y="90" width="24" height="130" fill="#f43f5e"/>
+      <rect x="206" y="40" width="24" height="180" fill="#f43f5e"/>
+      <text x="150" y="230" fill="#94a3b8" font-size="16" text-anchor="middle">viele kleine Schritte</text>
+    </g>
+    <g>
+      <text x="490" y="24" fill="#4ade80" font-size="22" text-anchor="middle">Quicksort</text>
+      <rect x="410" y="200" width="24" height="20" fill="#4ade80"/>
+      <rect x="444" y="170" width="24" height="50" fill="#4ade80"/>
+      <rect x="478" y="130" width="24" height="90" fill="#4ade80"/>
+      <rect x="512" y="90" width="24" height="130" fill="#4ade80"/>
+      <rect x="546" y="40" width="24" height="180" fill="#4ade80"/>
+      <text x="490" y="230" fill="#94a3b8" font-size="16" text-anchor="middle">clevere große Sprünge</text>
+    </g>
+    <line x1="320" y1="10" x2="320" y2="230" stroke="#334155" stroke-width="2" stroke-dasharray="6,6"/>
+  </svg>
+  <p>Beide sortieren dieselben Balken — <span class="gr">gleiches Ergebnis</span>, sehr unterschiedliche Geschwindigkeit.<br>Je mehr Daten, desto extremer der Unterschied.</p>
+</section>
+
+<!-- 4 Suche -->
+<section class="slide">
+  <h2>Suchen: der Reihe nach vs. clever halbieren</h2>
+  <div class="karte"><ul>
+    <li><span class="rot">Lineare Suche:</span> von vorne nach hinten durchgehen, eins nach dem anderen</li>
+    <li><span class="gr">Binäre Suche:</span> immer in der Mitte teilen und die falsche Hälfte wegwerfen</li>
+  </ul></div>
+  <p class="klein">Binäre Suche findet jede Zahl aus 100 in <strong>höchstens 7 Schritten</strong> — aber nur bei sortierten Daten!</p>
+</section>
+
+<!-- 5 Was ist eine API -->
+<section class="slide">
+  <h2>Was ist eine API?</h2>
+  <svg viewBox="0 0 640 220" role="img" aria-label="Client sendet Anfrage an API, API fragt Datenbank, Antwort geht zurück">
+    <rect x="20" y="70" width="140" height="70" rx="10" fill="#1e293b" stroke="#38bdf8" stroke-width="3"/>
+    <text x="90" y="110" fill="#e2e8f0" font-size="20" text-anchor="middle">Du (Client)</text>
+    <rect x="250" y="70" width="140" height="70" rx="10" fill="#1e293b" stroke="#facc15" stroke-width="3"/>
+    <text x="320" y="110" fill="#e2e8f0" font-size="20" text-anchor="middle">API</text>
+    <rect x="480" y="70" width="140" height="70" rx="10" fill="#1e293b" stroke="#4ade80" stroke-width="3"/>
+    <text x="550" y="110" fill="#e2e8f0" font-size="20" text-anchor="middle">Datenbank</text>
+    <path d="M160,90 L250,90" stroke="#38bdf8" stroke-width="4" marker-end="url(#pfa)"/>
+    <text x="205" y="78" fill="#38bdf8" font-size="16" text-anchor="middle">Anfrage</text>
+    <path d="M390,120 L480,120" stroke="#facc15" stroke-width="4" marker-end="url(#pfb)"/>
+    <text x="435" y="140" fill="#facc15" font-size="16" text-anchor="middle">fragt nach</text>
+    <path d="M480,90 L390,90" stroke="#4ade80" stroke-width="4" marker-end="url(#pfc)"/>
+    <path d="M250,120 L160,120" stroke="#4ade80" stroke-width="4" marker-end="url(#pfc)"/>
+    <text x="205" y="140" fill="#4ade80" font-size="16" text-anchor="middle">Antwort</text>
+    <defs>
+      <marker id="pfa" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#38bdf8"/></marker>
+      <marker id="pfb" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#facc15"/></marker>
+      <marker id="pfc" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#4ade80"/></marker>
+    </defs>
+  </svg>
+  <p>Eine API ist ein <strong>definierter Eingang</strong>, um Daten zu holen oder zu senden.<br>Wie ein Kellner im Restaurant: du sagst, was du willst — er bringt es. Du gehst nicht selbst in die Küche.</p>
+</section>
+
+<!-- 6 JSON & Request/Response -->
+<section class="slide">
+  <h2>JSON & Request/Response</h2>
+  <div class="flow">
+    <div class="box">GET<br><span class="klein">Daten holen</span></div>
+    <span>·</span>
+    <div class="box">POST<br><span class="klein">Daten senden</span></div>
+  </div>
+  <p style="margin-top:3vh">JSON ist das „Sprach-Format" der APIs — ein Text-Muster aus Schlüssel und Wert.</p>
+  <p class="klein">Auch die KI ist nur eine API: <strong>Text rein → Text raus.</strong></p>
+</section>
+
+<!-- 7 Agent-Loop -->
+<section class="slide">
+  <h2>Dein erster KI-Agent</h2>
+  <svg viewBox="0 0 500 300" role="img" aria-label="Kreis-Diagramm Denken, Handeln, Ergebnis prüfen">
+    <circle cx="250" cy="150" r="120" fill="none" stroke="#334155" stroke-width="3"/>
+    <circle cx="250" cy="50" r="55" fill="#1e293b" stroke="#38bdf8" stroke-width="3"/>
+    <text x="250" y="55" fill="#e2e8f0" font-size="20" text-anchor="middle">DENKEN</text>
+    <circle cx="360" cy="220" r="55" fill="#1e293b" stroke="#facc15" stroke-width="3"/>
+    <text x="360" y="216" fill="#e2e8f0" font-size="18" text-anchor="middle">HANDELN</text>
+    <circle cx="140" cy="220" r="55" fill="#1e293b" stroke="#4ade80" stroke-width="3"/>
+    <text x="140" y="212" fill="#e2e8f0" font-size="15" text-anchor="middle">ERGEBNIS</text>
+    <text x="140" y="230" fill="#e2e8f0" font-size="15" text-anchor="middle">PRÜFEN</text>
+    <path d="M295,75 C330,110 350,150 355,168" fill="none" stroke="#94a3b8" stroke-width="3" marker-end="url(#pfd)"/>
+    <path d="M320,255 C270,280 230,280 180,255" fill="none" stroke="#94a3b8" stroke-width="3" marker-end="url(#pfd)"/>
+    <path d="M150,168 C155,150 175,110 205,75" fill="none" stroke="#94a3b8" stroke-width="3" marker-end="url(#pfd)"/>
+    <defs>
+      <marker id="pfd" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#94a3b8"/></marker>
+    </defs>
+  </svg>
+  <p>Ein Agent arbeitet in einer Schleife auf ein Ziel hin: <strong>Denken → Handeln → Ergebnis prüfen</strong> — und wieder von vorn.<br>Genau das macht auch die Gemini-CLI.</p>
+</section>
+
+<!-- 8 App -->
+<section class="slide">
+  <div class="badge">Heute in der KI-Lab-App</div>
+  <h2>Was ihr gleich macht</h2>
+  <div class="karte"><ul>
+    <li>Sortier-Rennen anschauen — und die Skalierung (mehr Balken) ausprobieren</li>
+    <li>Labyrinth-Löser Schritt für Schritt beobachten</li>
+    <li>Echte Daten aus dem Netz holen (Wetter-API)</li>
+    <li>Eigene Mini-API + Datenbank bauen</li>
+    <li>Bot mit Gemini verbinden und ersten Agent-Loop starten</li>
+    <li class="klein">+ Bonus: eigener Such-Algorithmus, eigener Sortier-Trick</li>
+  </ul></div>
+  <p class="klein">Die Algorithmen-Seiten laufen offline und kosten nichts — anschauen und eine Sache ändern!</p>
+</section>
+
+<div class="pfeil" id="zurueck"></div>
+<div class="pfeil" id="vor"></div>
+<div class="fuss"><span id="nr">1</span> / <span id="ges">8</span> &nbsp;·&nbsp; ← → blättern &nbsp;·&nbsp; F11 = Vollbild</div>
+
+<script>
+  let slides = [...document.querySelectorAll('.slide')];
+  let i = 0;
+  document.getElementById('ges').textContent = slides.length;
+  function zeige(n) {
+    i = Math.max(0, Math.min(slides.length - 1, n));
+    slides.forEach((s, k) => s.classList.toggle('aktiv', k === i));
+    document.getElementById('nr').textContent = i + 1;
+  }
+  function vor() { zeige(i + 1); }
+  function zurueck() { zeige(i - 1); }
+  document.addEventListener('keydown', e => {
+    if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'PageDown') { vor(); }
+    if (e.key === 'ArrowLeft' || e.key === 'PageUp') { zurueck(); }
+  });
+  document.getElementById('vor').addEventListener('click', vor);
+  document.getElementById('zurueck').addEventListener('click', zurueck);
+  zeige(0);
+</script>
+</body>
+</html>
