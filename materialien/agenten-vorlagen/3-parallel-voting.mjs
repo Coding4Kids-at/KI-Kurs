@@ -1,7 +1,8 @@
 // 3-parallel-voting.mjs — DREI Agenten GLEICHZEITIG (parallel), dann wählt eine Jury die beste Idee.
 // Starten:  node 3-parallel-voting.mjs
 //
-// Genau dieses Muster nutzt connect8 in echt: viele KI-Agenten arbeiten parallel und stimmen sich ab.
+// Parallel arbeiten (viele Agenten gleichzeitig) + abstimmen (die beste Idee wählen) sind zwei
+// nuetzliche Muster fuer groessere KI-Systeme.
 
 import { frageKI } from "./ki.mjs";
 

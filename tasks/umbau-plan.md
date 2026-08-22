@@ -22,8 +22,11 @@ wie letzte Woche, schlicht **zu wenig Stoff**.
    Dateien und führt `node`/`npm` selbst aus. (Bereits gelernte Wurzel aller "Cannot GET"-Probleme.)
 5. **Offline-robust wo möglich.** Loops & Algorithmen sind reines JS im Browser (keine API,
    kein Netz) → bombensicher und visuell. Agenten brauchen die API (Paid-Tier, Rate-Limits weg).
-6. **connect8-Bezug als roter Faden.** Parallele Agenten + Pipelines = wörtlich die echte
-   Firmen-Architektur. Guter Satz für Trainer und fürs Verkaufen des Kurses.
+6. **connect8-Bezug ehrlich halten.** WAHR: connect8 betreibt mehrere spezialisierte KI-Agenten
+   (Microservices), die parallel laufen und je einen anderen Job machen (Vertrag lesen, matchen,
+   CO₂). NICHT wahr (früher falsch behauptet): dass Agenten „abstimmen"/voten — der Match-Score
+   ist eine gewichtete Formel, kein Agenten-Voting. Das Voting/„mehrere prüfen"-Muster ehrlich als
+   Code-Review-Analogie einordnen, nicht als connect8-Architektur.
 
 ---
 
@@ -96,8 +99,9 @@ eigene Mini-API mit Express, SQLite, Gemini-API anklemmen, Frontend↔Backend ve
 - **Demo Multi-Agent-Pipeline:** drei Persönlichkeiten — **Autor → Kritiker → Editor.** Text läuft
   durch die Kette. "Ein Agent allein ist okay, ein Team ist besser."
 - **Demo Parallel + Voting:** dieselbe Frage **gleichzeitig** an 3 Agenten (`Promise.all`),
-  Antworten vergleichen, Mehrheit gewinnt. **→ connect8-Satz:** "So arbeitet die Firma wirklich —
-  viele KI-Agenten parallel, die sich abstimmen."
+  Antworten vergleichen, eine Jury wählt. **Ehrliche Einordnung:** parallele spezialisierte Agenten
+  laufen bei connect8 wirklich (verschiedene Jobs); das Abstimmen/„mehrere prüfen" als Code-Review-
+  Analogie einordnen — NICHT behaupten, connect8-Agenten stimmen ab.
 - **Debatte-Duell (Bonus/Spaß):** zwei Bots mit gegensätzlichen System-Prompts streiten rundenweise.
 - **Stretch:** vierten Agenten in die Pipeline hängen; parallele Agenten mit unterschiedlichen
   Modellen/Temperaturen; Voting gewichten.
