@@ -1,0 +1,26 @@
+KI LAB — einfach starten (kein Tippen)
+======================================
+
+So startest du die Workshop-App:
+
+  1. Docker Desktop oeffnen und warten, bis es gruen ist.
+  2. Doppelklick auf  START-KI-LAB.cmd
+  3. Der Browser geht von selbst auf  http://localhost:3000
+
+Beenden:
+
+  Doppelklick auf  STOP-KI-LAB.cmd
+
+Wieder starten:
+
+  Doppelklick auf  START-KI-LAB.cmd  (holt automatisch die neueste Version)
+
+
+Hinweis fuer den Trainer
+------------------------
+Neben diese beiden Dateien gehoert eine Datei  key.txt  mit dem Gemini-Kurs-Key
+(eine Zeile, beginnt mit AIza...). Die Starter lesen den Key automatisch daraus —
+die Kinder muessen nichts eintippen. Ohne key.txt startet die App trotzdem, der
+KI-Chat sagt dann "Trainer fragen".
+
+Den Key nach dem Workshop rotieren (neuen erstellen, alten loeschen).
